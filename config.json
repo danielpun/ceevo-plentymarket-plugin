@@ -12,6 +12,24 @@
                         "defaultValue": "Ceevo Payment"
                     }
                 },
+                "environment":{
+                    "type":"selectBox",
+                    "required":false,
+                    "label":"Config.environmentLabel",
+                    "options":{
+                       "defaultValue":"TEST",
+                       "selectBoxValues":[
+                          {
+                             "value":"LIVE",
+                             "caption":"Config.environmentPossibleValueLIVE"
+                          },
+                          {
+                             "value":"TEST",
+                             "caption":"Config.environmentPossibleValueTEST"
+                          }
+                       ]
+                    }
+                 },
                 "infoPage.type": {
                     "type": "selectBox",
                     "required": false,

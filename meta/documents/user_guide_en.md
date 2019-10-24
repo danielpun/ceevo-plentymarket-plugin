@@ -9,14 +9,14 @@ With the plentymarkets plugin you are able to use these paymethods: Creditcard, 
 
 ## Opening a account
 
-You need to [become a client](http://www.ceevo.com) before you can set up the payment method in plentymarkets. You will then receive information and access data, which you will need for setting up the function in plentymarkets.
+You need to [become a client](http://ceevo-testshop.com/plenty_register/?en=1) before you can set up the payment method in plentymarkets. You will then receive information and access data, which you will need for setting up the function in plentymarkets.
 
 ## Setting up in plentymarkets
 
 Before using the full functionality of the plugin, you first have to connect your Ceevo account with your plentymarkets system.
 
 ##### Adding a Ceevo account:   
-1. Go to **Plugins&nbsp;» ceevo payment&nbsp;» Configuration**. 
+1. Go to **Plugins&nbsp;» Ceevo&nbsp;» Configuration**. 
 2. Enter your credentials and select Mode TEST or LIVE. For TEST all credentials are already filled in. 
 3. Switch to the tab of each paymethod you what to use and enter description, channel id and activate the paymethod.
 4. Click on **Save**.
@@ -28,7 +28,7 @@ Before using the full functionality of the plugin, you first have to connect you
 2. Click on CRM in Left Navi
 3. Click on Classes in Left Navi
 4. Click on small + Top Left
-5. Select all Classes with Mapa or Ceevo under Permitted payment methods.
+5. Select all Classes with Cvpa or Ceevo under Permitted payment methods.
 6. Click on save button.
 
 ## Linking template containers

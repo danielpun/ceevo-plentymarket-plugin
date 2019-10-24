@@ -1,35 +1,37 @@
 {
-    "version"           : "1.0.0",
-    "name"              : "CeevoPayment",
-    "isClosedSource"    : true,
-    "marketplaceName"   : {"de":"ceevo zahlung","en":"ceevo payment"},
-    "license"           : "Copyright by Ceevo Financial Services (Malta) Limited",
-    "pluginIcon"        : "icon_plugin_xs.png",
-    "price"             : 0.00,
-    "description"       : "ceevo payment plugin for plentymarkets online stores",
-    "shortDescription"  : {"de": "Zahlungsart Ceevo für plentymarkets Webshops","en": "Payment method Ceevo for plentymarkets online stores"},
-    "categories"        : ["3519"],
-    "author"            : "Ceevo Financial Services (Malta) Limited",
-    "authorIcon"        : "icon_author_xs.png",
-    "email"             : "hello@ceevo.com",
-    "phone"             : "+49 408 53 788 814",
-    "keywords"          : ["ceevo payment", "Barzahlung", "official", "plentymarkets", "payment"],
-    "type"              : "payment",
-    "namespace"         : "CeevoPayment",
-    "serviceProvider"   : "CeevoPayment\\Providers\\CeevoPaymentServiceProvider",
-    "javaScriptFiles"   : [],
-    "containers"        : [],
-    "dataProviders"     : [
+    "name": "Ceevo",
+    "marketplaceName": {"de":"Ceevo Zahlungs","en":"Ceevo Payment"},
+    "namespace": "Cvpa",
+    "type": "payment",  
+    "version": "1.2.1",
+    "license": "Copyright by Ceevo AG",
+    "isClosedSource": true,
+    "pluginIcon": "icon_plugin_xs.png",
+    "price": 0.00,
+    "description": "Ceevo plugin for plentymarkets",
+    "shortDescription": {"de":"Ceevo plugin für plentymarkets","en":"Ceevo plugin for plentymarkets"},
+    "categories":["3519"],
+    "keywords": ["ceevo", "official", "plentymarkets", "payment"],
+    "author": "Ceevo AG",
+    "authorIcon": "icon_author_xs.png",
+    "email": "tobias.eilers@ceevo.com",
+    "phone": "+49 8151 18759-0",
+    "serviceProvider": "Cvpa\\Providers\\CvpaServiceProvider",
+    "containers": [],
+    "dataProviders"         :
+    [
         {
-        "key"           :"CeevoPayment\\Providers\\Icon\\IconProvider",
-        "name"          :"CeevoPayment icon",
-        "description"   :"Display the icon for this payment method"
-    }],
-    "dependencies"      : [],
-    "runOnBuild"        : [
-        "CeevoPayment\\Migrations\\CreateSettings_1_0_0",
-        "CeevoPayment\\Migrations\\CreateSettings_1_1_0",
-        "CeevoPayment\\Migrations\\CreateShippingCountrySettings_1_0",
-        "CeevoPayment\\Migrations\\MigrateShippingCountries_1_0"
-    ]
+            "key"           :"Cvpa\\Containers\\CvpaErrorContainer",
+            "name"          :"Error Messages",
+            "description"   :"Display a error message in checkout"
+        },
+        {
+            "key"           :"Cvpa\\Providers\\IconProvider",
+            "name"          :"CeevoPayment icon",
+            "description"   :"Display the icon for this payment method"
+        }
+    ],
+    "javaScriptFiles": [],
+    "require": [],
+    "dependencies":[]
 }

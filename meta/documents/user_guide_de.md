@@ -4,7 +4,7 @@ Ceevo – Ihr One-Stop-Shop für eCommerce-Payments
 
 Stellen Sie sich mit Ceevo für Ihr E-Commerce Business optimal auf. Keine Grundgebühr für STARTER, alle wichtigen Zahlarten zu Top-Konditionen für EXPERTEN oder die EU-Payment-Flatrate mit nur 0,7% Disagio ohne zusätzliche Transaktionskosten für die Kreditkarte – Ceevo hat für jeden Shop die passende Lösung!
 
-Für Europa und Asien (z.B. CUP, JCB, Alipay und WeChatpay) liefert Ceevo alle Zahlarten aus einer Hand. Mit der Acquiring Bank im eigenen Haus und eigenem Gateway bietet Ceevo zumeist marktbeste Konditionen. Barrierefreie Einbindung von Warenwirtschafts- und allen Shopsystemen, deutschsprachiger Kundenservice und rasches Onboarding runden das Leistungspaket ab.
+Für Europa und Asien (z.B. CUP, JCB, Alipay und WeChatpay) liefert Masterpaymet alle Zahlarten aus einer Hand. Mit der Acquiring Bank im eigenen Haus und eigenem Gateway bietet Ceevo zumeist marktbeste Konditionen. Barrierefreie Einbindung von Warenwirtschafts- und allen Shopsystemen, deutschsprachiger Kundenservice und rasches Onboarding runden das Leistungspaket ab.
 
 Ceevo, mit Standorten in Deutschland, UK, Malta und Liechtenstein, wurde 2010 gegründet und gehört zu den am schnellsten wachsenden Payment-Anbietern in Europa.
 
@@ -12,14 +12,14 @@ Mit dem plentymarkets plugin können Sie folgende Zahlarten nutzen: Kreditkarte,
 
 ## Zugang anlegen
 
-Sie müssen [Kunde werden](http://www.ceevo.com) bevor Sie die Zahlverfahren in plentymarkets nutzen können. Sie erhalten dann Informationen sowie Zugangsdaten, die Sie für die Einrichtung in plentymarkets benötigen.
+Sie müssen [Kunde werden](http://ceevo-testshop.com/plenty_register/?en=0) bevor Sie die Zahlverfahren in plentymarkets nutzen können. Sie erhalten dann Informationen sowie Zugangsdaten, die Sie für die Einrichtung in plentymarkets benötigen.
 
 ## Einrichtung in plentymarkets
 
 Bevor Sie die Funktionen des Plugins nutzen können, müssen Sie zuerst Ihr Ceevo-Konto mit Ihrem plentymarkets System verbinden.
 
 ##### Ceevo Konto hinzufügen:
-1. Öffnen Sie das Menü **Plugins&nbsp;» ceevo payment&nbsp;» Konfiguration**. 
+1. Öffnen Sie das Menü **Plugins&nbsp;» Ceevo&nbsp;» Konfiguration**. 
 2. Tragen Sie Ihre Zugangsdaten ein und wählen Sie den Modus TEST oder LIVE. Für TEST sind bereits alle Daten vorausgefüllt. 
 3. Wechseln Sie den Tab um die einzelnen Zahlverfahren zu aktivieren, die Beschreibung und die Kanal ID einzutragen.
 4. Klicken Sie auf **Save**.
@@ -31,7 +31,7 @@ Bevor Sie die Funktionen des Plugins nutzen können, müssen Sie zuerst Ihr Ceev
 2. Klick auf CRM links in der Navi
 3. Klick auf Klassen/Classes in der Navi links
 4. Klick auf das kleine + oben links
-5. Wählen Sie alle Klassen mit dem Namen Mapa oder Ceevo unter Permitted payment methods aus.
+5. Wählen Sie alle Klassen mit dem Namen Cvpa oder Ceevo unter Permitted payment methods aus.
 6. Klick auf Speichern links unten.
 
 ## Template-Container verknüpfen

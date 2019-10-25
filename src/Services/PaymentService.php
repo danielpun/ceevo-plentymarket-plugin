@@ -323,7 +323,8 @@ class PaymentService
       $selectedPaymethod = strtolower($selectedPaymethod);
       $requestParams = $this->getApiParams($basket, $selectedPaymethod, $mopID);
 
-      $content = genCardTokenWidget($twig, $requestParams);
+      $payCore = $this->payCore;
+      $content = $payCore->genCardTokenWidget($twig, $requestParams);
       
       // $payCore = $this->payCore;
       // $payCore->getToken($requestParams);

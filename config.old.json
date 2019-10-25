@@ -54,17 +54,17 @@
             "status_cc":{
                "type":"selectBox",
                "required":false,
-               "label":"Config.statusCcLabel",
+               "label":"Config.statusCvLabel",
                "options":{
                   "defaultValue":"0",
                   "selectBoxValues":[
                      {
                         "value":"0",
-                        "caption":"Config.statusCcPossibleValue0"
+                        "caption":"Config.statusCvPossibleValue0"
                      },
                      {
                         "value":"1",
-                        "caption":"Config.statusCcPossibleValue1"
+                        "caption":"Config.statusCvPossibleValue1"
                      }
                   ]
                }

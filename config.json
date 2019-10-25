@@ -4,7 +4,7 @@
         "Config.SettingsTab": {
             "label": "Config.SettingsTab",
             "formFields": {
-                "name": {
+                "name_cv": {
                     "type": "inputText",
                     "required": false,
                     "label": "Config.nameLabel",
@@ -30,7 +30,7 @@
                        ]
                     }
                  },
-                 "status_cc":{
+                 "status_cv":{
                     "type":"selectBox",
                     "required":false,
                     "label":"Config.statusCvLabel",

@@ -12,6 +12,14 @@
                         "defaultValue": "Ceevo Payment"
                     }
                 },
+                "desc_cv":{
+                    "type":"inputText",
+                    "required":false,
+                    "label":"Config.descCvLabel",
+                    "options":{
+                       "defaultValue":"Ceevo Payment test"
+                    }
+                 },
                 "environment":{
                     "type":"selectBox",
                     "required":false,

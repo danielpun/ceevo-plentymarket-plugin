@@ -300,7 +300,7 @@ class PaymentService
         $requestParams['REQUEST']['CRITERION.SUCCESSURL'] = $domain.'/payment/cvpa/checkout_success';
         $requestParams['REQUEST']['CRITERION.CARD.TOKEN'] = $domain.'/payment/cvpa/card_token';
         $requestParams['REQUEST']['CRITERION.PLACEURL'] = $domain.'/place-order';
-        $requestParams['REQUEST']['CRITERION.RESPONSEURL'] = $conf['RESPONSE_URL'];
+        // $requestParams['REQUEST']['CRITERION.RESPONSEURL'] = $conf['RESPONSE_URL'];
         $i=1;
         foreach($_COOKIE AS $k => $v){
           $requestParams['REQUEST']['CRITERION.COOKIE.'.$i.'.NAME'] = $k;

@@ -169,7 +169,7 @@ class PayCore
     if (!empty($xml)) {
       $pString = 'load='.urlencode($xml);
       //$pString = 'load='.$xml;
-      $url = $xmlUrl;
+      $url = $test_url;
     }
 
     $ch = curl_init();
@@ -228,7 +228,7 @@ class PayCore
                   "last_name" => $userData['lastname'],"mobile" => $userData['phone'],"phone" => $userData['phone']);  
     $data_string = json_encode($data);
    
-    $customer_id = $this->callAPI('POST', $url . '/payment/customer', $data_string);
+    $customer_id = $this->callAPI('POST', $url . '/payment/customer', $param, $data_string);
    
     return $customer_id;
 }
@@ -244,7 +244,7 @@ function registerAccountToken($conf, $customer_registered_id){
 
     $token_array = array("account_token" => $_POST['token_hidden_input'],"is_default" => true,"verify" => true);
     $token_string = json_encode($token_array);
-    $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $token_string);
+    $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $conf, $token_string);
     $response = json_decode($get_data, true);
 }
 
@@ -281,24 +281,18 @@ function chargeApi($param, $cusId){
     $mode = $param['ENV.MODE'];
 
     $items_array = array();
-    foreach($requestParams['basketItems'] as $item){
+    foreach($param['basketItems'] as $item){
       
       $item_json = array("item" => $item['name'],"itemValue" =>(string) $item['price']);
       array_push($items_array, json_encode($item_json));
     }
     $itemString = implode(',',$items_array);
 
-    $jres = json_decode($res, true);
     $access_token = $this->access_token;
     
     $authorization = "Authorization: Bearer $access_token";
    
     $charge_api = $url . "/payment/charge"; 
-    
-    $domain = $_SERVER['HTTP_HOST'];
-      if(!is_null($webstoreConfig)) {
-        $domain = $webstoreConfig->domainSsl;
-      }
        
     
     $successURL = $param['REQUEST']['CRITERION.SUCCESSURL'];
@@ -407,7 +401,7 @@ function chargeApi($param, $cusId){
         $headers = substr($response, 0, $header_size);
         $body = substr($response, $header_size);
 
-        curl_close($ch);
+        curl_close($curl);
         header("Content-Type:text/plain; charset=UTF-8");
          $transactionHeaders = $this->http_parse_headers($headers);
           $cusId = '';
@@ -421,6 +415,42 @@ function chargeApi($param, $cusId){
               $cusId = $get_page_name[4];
           }
       return $cusId;
+  }
+
+  function http_parse_headers($raw_headers)
+  {
+      $headers = array();
+      $key = ''; // [+]
+      foreach(explode("\n", $raw_headers) as $i => $h)
+      {
+          $h = explode(':', $h, 2);
+          if (isset($h[1]))
+          {
+              if (!isset($headers[$h[0]]))
+                  $headers[$h[0]] = trim($h[1]);
+              elseif (is_array($headers[$h[0]]))
+              {
+                  // $tmp = array_merge($headers[$h[0]], array(trim($h[1]))); // [-]
+                  // $headers[$h[0]] = $tmp; // [-]
+                  $headers[$h[0]] = array_merge($headers[$h[0]], array(trim($h[1]))); // [+]
+              }
+              else
+              {
+                  // $tmp = array_merge(array($headers[$h[0]]), array(trim($h[1]))); // [-]
+                  // $headers[$h[0]] = $tmp; // [-]
+                  $headers[$h[0]] = array_merge(array($headers[$h[0]]), array(trim($h[1]))); // [+]
+              }
+              $key = $h[0]; // [+]
+          }
+          else // [+]
+          { // [+]
+              if (substr($h[0], 0, 1) == "\t") // [+]
+                  $headers[$key] .= "\r\n\t".trim($h[0]); // [+]
+              elseif (!$key) // [+]
+                  $headers[0] = trim($h[0]);trim($h[0]); // [+]
+          } // [+]
+      }
+      return $headers;
   }
 
 } // end of class

@@ -61,6 +61,7 @@ class CvpaServiceProvider extends ServiceProvider
     /**
      * Boot additional services
      *
+     * @param Twig                     $twig
      * @param Dispatcher               $eventDispatcher
      * @param PaymentHelper            $paymentHelper
      * @param PaymentService           $paymentService

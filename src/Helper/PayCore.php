@@ -169,7 +169,7 @@ class PayCore
     if (!empty($xml)) {
       $pString = 'load='.urlencode($xml);
       //$pString = 'load='.$xml;
-      $url = $test_url;
+      $url = $this->test_url;
     }
 
     $ch = curl_init();
@@ -377,7 +377,7 @@ function chargeApi($param, $cusId){
             break;
          default:
             if ($data)
-               $url = sprintf("%s?%s", $url, http_build_query($data));
+               $url = sprintf("%s?%s", $url, $data);
       }
  
       // OPTIONS:

@@ -356,6 +356,9 @@ class PaymentService
       // //$content.= '<span class="button" , data-dismiss="modal" aria-label="Close">cancel</span>';
       // // redirect way
       // $content.= '<a href="/checkout">cancel</a>';
+      
+
+      
       return $content;
     }
 

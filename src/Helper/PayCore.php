@@ -274,7 +274,7 @@ function genCardTokenWidget($param) {
         <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="$price">
         <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="$currency">
       </form>
-      <a href="/checkout">cancel</a>
+      <a href="/checkout">cancel 1</a>
       </body>
       <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
       <script type="text/javascript" language="JavaScript">

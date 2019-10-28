@@ -22,6 +22,8 @@
 </head>
 
 <body onload="submitPayment();">
+<button type="button" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      <span class="button" , data-dismiss="modal" aria-label="Close">cancel</span>
 <form id="checkout_form" action="ceevo_widget_backend.php" method="POST">
   <input type="hidden" id="token_hidden_input" name="token_hidden_input">
   <input type="hidden" id="session_hidden_input" name="session_hidden_input">
@@ -30,7 +32,7 @@
   <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="{{price}}">
   <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="{{currency}}">
 </form>
-<a href="/checkout">cancel</a>
+<a href="/checkout">cancel 2</a>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">

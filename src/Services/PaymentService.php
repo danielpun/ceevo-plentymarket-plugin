@@ -313,7 +313,7 @@ class PaymentService
         return $requestParams;
     }
     
-    public function getPaymentContent($basket, $selectedPaymethod, $mopID)
+    public function getPaymentContent($twig, $basket, $selectedPaymethod, $mopID)
     {
       // clear if last payment is still there
       $lastReq = $this->sessionStorage->setSessionValue('lastReq', null);
@@ -324,7 +324,7 @@ class PaymentService
       $requestParams = $this->getApiParams($basket, $selectedPaymethod, $mopID);
 
       $payCore = $this->payCore;
-      $content = $payCore->genCardTokenWidget($requestParams);
+      $content = $payCore->genCardTokenWidget($twig, $requestParams);
       
       // $payCore = $this->payCore;
       // $payCore->getToken($requestParams);

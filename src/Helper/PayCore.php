@@ -233,102 +233,15 @@ class PayCore
     return $customer_id;
 }
 
-function genCardTokenWidget($param) {
+function genCardTokenWidget($twig, $param) {
   $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
-  // return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
-  //                       'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, ]);
-  $apiKey = $param['API.KEY'];
-  $mode = $param['ENV.MODE'];
-  $price = $param['PRICE'];
-  $currency = $param['CURRENCY'];
-  $content = <<<EOF
-      <!DOCTYPE html>
-      <html>
-
-      <head>
-        <meta charset="utf-8">
-        <meta http-equiv='cache-control' content='no-cache'>
-        <meta http-equiv='expires' content='0'>
-        <meta http-equiv='pragma' content='no-cache'>
-
-        <title>Payment Demo</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-
-        <script src="$apiUrl/ceevo.js"></script>
-        <style type="text/css">
-          .control-group {
-            margin-bottom: 15px;
-          }
-        </style>
-      </head>
-
-      <body onload="submitPayment();">
-      <button type="button" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-      <span class="button" , data-dismiss="modal" aria-label="Close">cancel</span>
-      <form id="checkout_form" action="ceevo_widget_backend.php" method="POST">
-        <input type="hidden" id="token_hidden_input" name="token_hidden_input">
-        <input type="hidden" id="session_hidden_input" name="session_hidden_input">
-        <input type="hidden" id="3dsecure" name="3dsecure" value="false">
-
-        <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="$price">
-        <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="$currency">
-      </form>
-      <a href="/checkout">cancel 1</a>
-      </body>
-      <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
-      <script type="text/javascript" language="JavaScript">
-        var apikey = '$apiKey';
-        var formId = 'form#checkout_form';
-        var config = {
-          envMode: '$mode', // LIVE
-          receiveTokensEvent: false // support custom event listener 'receiveTokens' to send tokenise data to merchant. default false.
-        };
-
-        var ceevoPayment = new CeevoPayment(apikey, formId, config);
-
-        function submitPayment() {
-          var widget = ceevoPayment.widget();
-          ceevoPayment.setPrice($('#price').val());
-          ceevoPayment.setCurrency($('#currency').val());
-          ceevoPayment.open_widget();
-        }
-
-        ceevoPayment.addErrorCallBack(function (error) {
-          document.getElementById('errorDiv').innerHTML = '';
-          document.getElementById('errorDiv').innerHTML = error;
-          document.getElementById('resultDiv').innerHTML = '';
-        });
-
-        /**
-        * for receiveTokensEvent is true only
-        */
-        // listen custom event when receiveTokensEvent is true
-        document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {
-          console.log('form.eventListener', detail);
-          var result = '';
-          for (var key in detail) {
-            result += key + ': ' + detail[key] + '<br/>';
-          }
-          document.getElementById('resultDiv').innerHTML = result;
-        })
-
-        /**
-        * for receiveTokensEvent is true only
-        */
-        // listen custom event when receiveTokensEvent is true, base on window
-        window.addEventListener('receiveTokens', function ({ detail }) {
-          console.log('window.eventListener', detail);
-        })
-      </script>
-
-      </html>
-EOF;
+  return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
+                        'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, ]);
       return $content;
 }
 
 function registerAccountToken($conf, $customer_registered_id){
-    $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
+    // $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
 
     $token_array = array("account_token" => $_POST['token_hidden_input'],"is_default" => true,"verify" => true);
     $token_string = json_encode($token_array);

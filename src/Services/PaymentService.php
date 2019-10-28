@@ -334,16 +334,15 @@ class PaymentService
 
       // $rawRes = $payCore->doRequest($requestParams['REQUEST']);
       // $res = $payCore->parseResult($rawRes);
-      // $this
-      //   ->getLogger('PaymentService::getPaymentContent')
-      //   //->setReferenceType('this')
-      //   //->setReferenceValue($this)
-      //   ->info('PaymentService', [
-      //     'requestParamsALL' => $requestParams, 
-      //     'request_result' => $rawRes, 
-      //     'parse_result' => $res, 
-      //     'this' => $this,
-      //   ]);
+      $this
+        ->getLogger('PaymentService::getPaymentContent')
+        //->setReferenceType('this')
+        //->setReferenceValue($this)
+        ->info('PaymentService', [
+          'requestParamsALL' => $requestParams, 
+          'parse_result' => $content, 
+          'this' => $this,
+        ]);
       
       // $iframeURL = 'about:blank';
       // if ($res['result'] == 'ACK'){

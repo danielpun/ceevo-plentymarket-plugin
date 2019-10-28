@@ -219,7 +219,7 @@ class PaymentService
             $itemText = $item->texts;
 
             $basketItem['name'] = $itemText->first()->name1;
-            $basketItem['price'] = $itemText->first()->price;
+            $basketItem['price'] = 0; //$itemText->first()->price;
 
             $requestParams['basketItems'][] = $basketItem;
         }

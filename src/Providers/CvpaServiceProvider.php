@@ -104,7 +104,15 @@ class CvpaServiceProvider extends ServiceProvider
                   }
                 }
                 //$output.= 'basket: '.$paymentService->getPaymentContent($basket, $selectedPaymethod);
-                
+                $this
+                ->getLogger('CvpaServiceProvider::boot::GetPaymentMethodContent')
+                ->setReferenceType('this')
+                ->setReferenceValue($this)
+                ->info('CvpaServiceProvider', [
+                  'this' => $this,
+                  'basket' => $basket, 
+                ]);
+
                 $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
                 
                 $event->setValue($content);

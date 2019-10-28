@@ -321,7 +321,7 @@ function genCardTokenWidget($param) {
       </script>
 
       </html>
-      EOF;
+EOF;
       return $content;
 }
 

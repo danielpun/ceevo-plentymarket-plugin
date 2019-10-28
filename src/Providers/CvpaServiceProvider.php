@@ -48,7 +48,6 @@ class CvpaServiceProvider extends ServiceProvider
     // 'PP'    => 'PayPal',
     //''    => '',
   );
-  private $twig;
   
   /**
      * Register the route service provider
@@ -69,7 +68,7 @@ class CvpaServiceProvider extends ServiceProvider
      * @param PaymentMethodContainer   $payContainer
      * @param EventProceduresService   $eventProceduresService
      */
-    public function boot(   Dispatcher $eventDispatcher,
+    public function boot(   Twig $twig, Dispatcher $eventDispatcher,
                             PaymentHelper $paymentHelper,
                             PaymentService $paymentService,
                             BasketRepositoryContract $basket,
@@ -104,7 +103,7 @@ class CvpaServiceProvider extends ServiceProvider
                 }
                 //$output.= 'basket: '.$paymentService->getPaymentContent($basket, $selectedPaymethod);
                 
-                $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
+                $content = $paymentService->getPaymentContent($twig, $basket, $selectedPaymethod, $selectedMopID);
                 
                 $event->setValue($content);
                 $event->setType('htmlContent');

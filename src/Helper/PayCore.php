@@ -235,8 +235,8 @@ class PayCore
 
 function genCardTokenWidget($twig, $param) {
   $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
-  return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
-                        'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, ])->getContent();
+  return $twig->renderView('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
+                        'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, ]);
 }
 
 function registerAccountToken($conf, $customer_registered_id){

@@ -70,7 +70,7 @@ class CvpaServiceProvider extends ServiceProvider
      * @param PaymentMethodContainer   $payContainer
      * @param EventProceduresService   $eventProceduresService
      */
-    public function boot(   Twig $twig, Dispatcher $eventDispatcher,
+    public function boot(   Dispatcher $eventDispatcher,
                             PaymentHelper $paymentHelper,
                             PaymentService $paymentService,
                             BasketRepositoryContract $basket,
@@ -113,7 +113,7 @@ class CvpaServiceProvider extends ServiceProvider
                   'basket' => $basket, 
                 ]);
 
-                $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
+                $content = $paymentService->getPaymentContent($basket, $selectedPaymethod, $selectedMopID);
                 
                 $event->setValue($content);
                 $event->setType('htmlContent');

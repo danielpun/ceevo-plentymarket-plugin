@@ -323,8 +323,8 @@ class PaymentService
       $selectedPaymethod = strtolower($selectedPaymethod);
       $requestParams = $this->getApiParams($basket, $selectedPaymethod, $mopID);
 
-      $payCore = $this->payCore;
-      $content = $payCore->genCardTokenWidget($twig, $requestParams);
+      // $payCore = $this->payCore;
+      // $content = $payCore->genCardTokenWidget($twig, $requestParams);
       
       // $payCore = $this->payCore;
       // $payCore->getToken($requestParams);
@@ -348,10 +348,10 @@ class PaymentService
       // if ($res['result'] == 'ACK'){
       //   $iframeURL = $res['url'];
        
-      //   $content = '<center><iframe src="'.$iframeURL.'" frameborder="0" width="80%" height="500"></iframe></center>';
-      // } else {
-      //   $content = '<h3 style="color: red">ERROR: '.$res['all']['PROCESSING.RETURN'].'</h3>';
-      // }
+        $content = '<center><iframe src="http://www.google.com" frameborder="0" width="80%" height="500"></iframe></center>';
+      } else {
+        $content = '<h3 style="color: green">ERROR: '.$res['all']['PROCESSING.RETURN'].'</h3>';
+      }
       // // modal way
       // //$content.= '<span class="button" , data-dismiss="modal" aria-label="Close">cancel</span>';
       // // redirect way

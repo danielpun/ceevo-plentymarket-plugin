@@ -12,8 +12,6 @@
   <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 
   <script src="{{apiUrl}}/ceevo.js"></script>
-  <!-- <script src="https://sdk.ceevo.com/ceevo.js"></script> -->
-  <!-- <script src="http://localhost:8080/app.js"></script> -->
   <style type="text/css">
     .control-group {
       margin-bottom: 15px;
@@ -46,11 +44,6 @@
 
   function submitPayment() {
     var widget = ceevoPayment.widget();
-    // widget.setPrice($('#price').val());
-    // widget.setCurrency($('#currency').val());
-    // widget.open();
-
-    // old
     ceevoPayment.setPrice($('#price').val());
     ceevoPayment.setCurrency($('#currency').val());
     ceevoPayment.open_widget();
@@ -62,10 +55,6 @@
     document.getElementById('resultDiv').innerHTML = '';
   });
 
-  /**
-  * for receiveTokensEvent is true only
-  */
-  // listen custom event when receiveTokensEvent is true
   document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {
     console.log('form.eventListener', detail);
     var result = '';
@@ -75,10 +64,6 @@
     document.getElementById('resultDiv').innerHTML = result;
   })
 
-  /**
-  * for receiveTokensEvent is true only
-  */
-  // listen custom event when receiveTokensEvent is true, base on window
   window.addEventListener('receiveTokens', function ({ detail }) {
     console.log('window.eventListener', detail);
   })

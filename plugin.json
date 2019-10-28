@@ -1,6 +1,6 @@
 {
     "name": "Ceevo",
-    "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test"},
+    "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test 1"},
     "namespace": "Cvpa",
     "type": "payment",  
     "version": "1.2.1",

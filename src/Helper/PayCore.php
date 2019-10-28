@@ -264,6 +264,8 @@ function genCardTokenWidget($param) {
       </head>
 
       <body onload="submitPayment();">
+      <button type="button" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      <span class="button" , data-dismiss="modal" aria-label="Close">cancel</span>
       <form id="checkout_form" action="ceevo_widget_backend.php" method="POST">
         <input type="hidden" id="token_hidden_input" name="token_hidden_input">
         <input type="hidden" id="session_hidden_input" name="session_hidden_input">

@@ -1,7 +1,7 @@
 
-  <meta charset="utf-8">
-
-  
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+<script src="{{apiUrl}}/ceevo.js"></script>
 <div id='tokenDiv'>
 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><a href="/checkout"><span aria-hidden="true">×</span></a></button>
 <form id="checkout_form" action="{{tokenUrl}}" method="POST">
@@ -16,8 +16,7 @@
 <div id="resultDiv"></div>
 <a href="javascript:;" onclick='initToken()'>submit</a> <a href="javascript:;" onclick="alert()">cancel</a>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
-<script src="{{apiUrl}}/ceevo.js"></script>
+
 <script type="text/javascript" language="JavaScript">
   function initToken() {
     var apikey = '{{apiKey}}';

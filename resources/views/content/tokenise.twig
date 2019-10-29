@@ -1,9 +1,9 @@
 
   <meta charset="utf-8">
 
-  <script src="{{apiUrl}}/ceevo.js"></script>
+  
 
-<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+<button type="button" data-dismiss="modal" aria-label="Close" class="close"><a href="/checkout"><span aria-hidden="true">×</span></a></button>
 <form id="checkout_form" action="{{tokenUrl}}" method="POST">
   <input type="hidden" id="token_hidden_input" name="token_hidden_input">
   <input type="hidden" id="session_hidden_input" name="session_hidden_input">
@@ -12,9 +12,12 @@
   <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="{{price}}">
   <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="{{currency}}">
 </form>
+<div id="errorDiv"></div>
+<div id="resultDiv"></div>
 <a href="/checkout">cancel</a>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+<script src="{{apiUrl}}/ceevo.js"></script>
 <script type="text/javascript" language="JavaScript">
 
     var apikey = '{{apiKey}}';

@@ -1,25 +1,8 @@
-<!DOCTYPE html>
-<html>
 
-<head>
   <meta charset="utf-8">
-  <meta http-equiv='cache-control' content='no-cache'>
-  <meta http-equiv='expires' content='0'>
-  <meta http-equiv='pragma' content='no-cache'>
-
-  <title>Payment Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 
   <script src="{{apiUrl}}/ceevo.js"></script>
-  <style type="text/css">
-    .control-group {
-      margin-bottom: 15px;
-    }
-  </style>
-</head>
 
-<body>
 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
 <form id="checkout_form" action="{{tokenUrl}}" method="POST">
   <input type="hidden" id="token_hidden_input" name="token_hidden_input">
@@ -29,8 +12,8 @@
   <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="{{price}}">
   <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="{{currency}}">
 </form>
-<a href="/checkout">cancel 2</a>
-</body>
+<a href="/checkout">cancel</a>
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">
   $(document).ready(function(){
@@ -70,5 +53,3 @@
     })
   });
 </script>
-
-</html>

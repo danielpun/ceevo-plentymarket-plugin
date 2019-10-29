@@ -18,9 +18,9 @@
 </div>
 
 <script type="text/javascript" language="JavaScript">
-var script = document.createElement('script');
-script.src = "{{apiUrl}}/ceevo.js";
-document.head.appendChild(script);
+// var script = document.createElement('script');
+// script.src = "{{apiUrl}}/ceevo.js";
+// document.head.appendChild(script);
   function initToken() {
     var apikey = '{{apiKey}}';
     var formId = 'form#checkout_form';
@@ -30,19 +30,19 @@ document.head.appendChild(script);
       renderWidgetTo: 'div#tokenDiv'
     };
 
-    var ceevoPayment = new CeevoPayment(apikey, formId, config);
+    $.getScript('{{apiUrl}}/ceevo.js', function() {
+      var ceevoPayment = new CeevoPayment(apikey, formId, config);
 
-    
       var widget = ceevoPayment.widget();
       ceevoPayment.setPrice($('#price').val());
       ceevoPayment.setCurrency($('#currency').val());
       ceevoPayment.open_widget();
-  
-
-    ceevoPayment.addErrorCallBack(function (error) {
-      document.getElementById('errorDiv').innerHTML = '';
-      document.getElementById('errorDiv').innerHTML = error;
-      document.getElementById('resultDiv').innerHTML = '';
+    
+      ceevoPayment.addErrorCallBack(function (error) {
+        document.getElementById('errorDiv').innerHTML = '';
+        document.getElementById('errorDiv').innerHTML = error;
+        document.getElementById('resultDiv').innerHTML = '';
+      });
     });
 
     document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {

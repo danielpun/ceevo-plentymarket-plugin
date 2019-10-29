@@ -34,43 +34,41 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">
   $(document).ready(function(){
-    initTokenise();
+    var apikey = '{{apiKey}}';
+    var formId = 'form#checkout_form';
+    var config = {
+      envMode: '{{mode}}', // LIVE
+      receiveTokensEvent: false // support custom event listener 'receiveTokens' to send tokenise data to merchant. default false.
+    };
+
+    var ceevoPayment = new CeevoPayment(apikey, formId, config);
+
+    
+      var widget = ceevoPayment.widget();
+      ceevoPayment.setPrice($('#price').val());
+      ceevoPayment.setCurrency($('#currency').val());
+      ceevoPayment.open_widget();
+    
+
+    ceevoPayment.addErrorCallBack(function (error) {
+      document.getElementById('errorDiv').innerHTML = '';
+      document.getElementById('errorDiv').innerHTML = error;
+      document.getElementById('resultDiv').innerHTML = '';
+    });
+
+    document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {
+      console.log('form.eventListener', detail);
+      var result = '';
+      for (var key in detail) {
+        result += key + ': ' + detail[key] + '<br/>';
+      }
+      document.getElementById('resultDiv').innerHTML = result;
+    })
+
+    window.addEventListener('receiveTokens', function ({ detail }) {
+      console.log('window.eventListener', detail);
+    })
   });
-
-  var apikey = '{{apiKey}}';
-  var formId = 'form#checkout_form';
-  var config = {
-    envMode: '{{mode}}', // LIVE
-    receiveTokensEvent: false // support custom event listener 'receiveTokens' to send tokenise data to merchant. default false.
-  };
-
-  var ceevoPayment = new CeevoPayment(apikey, formId, config);
-
-  function initTokenise() {
-    var widget = ceevoPayment.widget();
-    ceevoPayment.setPrice($('#price').val());
-    ceevoPayment.setCurrency($('#currency').val());
-    ceevoPayment.open_widget();
-  }
-
-  ceevoPayment.addErrorCallBack(function (error) {
-    document.getElementById('errorDiv').innerHTML = '';
-    document.getElementById('errorDiv').innerHTML = error;
-    document.getElementById('resultDiv').innerHTML = '';
-  });
-
-  document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {
-    console.log('form.eventListener', detail);
-    var result = '';
-    for (var key in detail) {
-      result += key + ': ' + detail[key] + '<br/>';
-    }
-    document.getElementById('resultDiv').innerHTML = result;
-  })
-
-  window.addEventListener('receiveTokens', function ({ detail }) {
-    console.log('window.eventListener', detail);
-  })
 </script>
 
 </html>

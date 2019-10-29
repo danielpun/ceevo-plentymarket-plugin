@@ -19,9 +19,9 @@
   </style>
 </head>
 
-<body onload="submitPayment();">
+<body>
 <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-<form id="checkout_form" action="ceevo_widget_backend.php" method="POST">
+<form id="checkout_form" action="{{tokenUrl}}" method="POST">
   <input type="hidden" id="token_hidden_input" name="token_hidden_input">
   <input type="hidden" id="session_hidden_input" name="session_hidden_input">
   <input type="hidden" id="3dsecure" name="3dsecure" value="false">
@@ -33,6 +33,10 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">
+  $(document).ready(function(){
+    initTokenise();
+  });
+
   var apikey = '{{apiKey}}';
   var formId = 'form#checkout_form';
   var config = {
@@ -42,7 +46,7 @@
 
   var ceevoPayment = new CeevoPayment(apikey, formId, config);
 
-  function submitPayment() {
+  function initTokenise() {
     var widget = ceevoPayment.widget();
     ceevoPayment.setPrice($('#price').val());
     ceevoPayment.setCurrency($('#currency').val());

@@ -290,6 +290,7 @@ class PaymentService
         );
 
         $requestParams['userData'] = $userData;
+        $requestParams['tokenUrl'] = $domain.'/payment/cvpa/card_token';
         $requestParams['REQUEST']['ORDER.ID'] = $orderId;
         $requestParams['REQUEST']['AMOUNT'] = $amount;
         $requestParams['REQUEST']['CURRENCY'] = $currency;
@@ -297,8 +298,7 @@ class PaymentService
         $requestParams['REQUEST']['CRITERION.MOPID'] = $mopID;
         $requestParams['REQUEST']['CRITERION.PM'] = $selectedPaymethod;
         $requestParams['REQUEST']['CRITERION.FAILURL'] = $domain.'/payment/cvpa/checkout_failure';
-        $requestParams['REQUEST']['CRITERION.SUCCESSURL'] = $domain.'/payment/cvpa/checkout_success';
-        $requestParams['REQUEST']['CRITERION.CARD.TOKEN'] = $domain.'/payment/cvpa/card_token';
+        $requestParams['REQUEST']['CRITERION.SUCCESSURL'] = $domain.'/payment/cvpa/checkout_success';        
         $requestParams['REQUEST']['CRITERION.PLACEURL'] = $domain.'/place-order';
         // $requestParams['REQUEST']['CRITERION.RESPONSEURL'] = $conf['RESPONSE_URL'];
         $i=1;

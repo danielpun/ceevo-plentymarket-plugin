@@ -14,12 +14,12 @@
 </form>
 <div id="errorDiv"></div>
 <div id="resultDiv"></div>
-<a href="/checkout">cancel</a>
+<a href="javascript:;" onclick='initToken()'>submit</a> <a href="/checkout">cancel</a>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script src="{{apiUrl}}/ceevo.js"></script>
 <script type="text/javascript" language="JavaScript">
-
+  function initToken() {
     var apikey = '{{apiKey}}';
     var formId = 'form#checkout_form';
     var config = {
@@ -34,7 +34,7 @@
       ceevoPayment.setPrice($('#price').val());
       ceevoPayment.setCurrency($('#currency').val());
       ceevoPayment.open_widget();
-    
+  }
 
     ceevoPayment.addErrorCallBack(function (error) {
       document.getElementById('errorDiv').innerHTML = '';

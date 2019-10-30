@@ -113,8 +113,8 @@ class CvpaServiceProvider extends ServiceProvider
                   'basket' => $basket, 
                 ]);
                   
-                $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
-                // $content = '<center><iframe src="https://www-test.ceevo.com" frameborder="0" width="80%" height="500"></iframe></center>';
+                // $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
+                $content = '<center><iframe src="https://cdn02.plentymarkets.com/uqmy53mopxtg/plugin/2/ceevo/views/content/tokenise.html" frameborder="0" width="90%" height="500"></iframe></center>';
                 
                 $event->setValue($content);
                 $event->setType('htmlContent');

@@ -3,7 +3,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 {# <script src="{{apiUrl}}/ceevo.js"></script> #}
 <div id='tokenDiv'>
-<button type="button" data-dismiss="modal" aria-label="Close" class="close"><a href="/checkout"><span aria-hidden="true">×</span></a></button>
+<img src="https://cdn02.plentymarkets.com/uqmy53mopxtg/plugin/2/ceevo/views/icon.twig" alt="Ceevo Payment" title="Ceevo Payment">
+{{ plugin_path('Cvpa') }}
+<button type="button" data-dismiss="modal" aria-label="Close" class="close" onclick="location.href='/checkout'"><span aria-hidden="true">×</span></button>
 <form id="checkout_form" action="{{tokenUrl}}" method="POST">
   <input type="hidden" id="token_hidden_input" name="token_hidden_input">
   <input type="hidden" id="session_hidden_input" name="session_hidden_input">

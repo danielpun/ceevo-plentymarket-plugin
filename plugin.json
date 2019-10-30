@@ -3,7 +3,7 @@
     "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test"},
     "namespace": "Cvpa",
     "type": "payment",  
-    "version": "0.0.22",
+    "version": "0.0.23",
     "license": "Copyright by Ceevo AG",
     "isClosedSource": true,
     "pluginIcon": "icon_plugin_xs.png",

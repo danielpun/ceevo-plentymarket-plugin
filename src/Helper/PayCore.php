@@ -300,7 +300,7 @@ function getToken($conf){
     $successURL = $param['REQUEST']['CRITERION.SUCCESSURL'];
     $failURL = $param['REQUEST']['CRITERION.FAILURL'];
     $cparam = '{"amount": '.( $param['REQUEST']['AMOUNT'] * 100 ).',
-            "3dsecure": true,
+            "3dsecure": "'.$param['tokenise']['3dsecure'].'",
             "mode" : "'.$mode.'",
             "method_code":  "'.$param['tokenise']['method_code'].'",
             "currency": "'.$param['REQUEST']['CURRENCY'].'",

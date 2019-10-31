@@ -245,7 +245,7 @@ class PaymentService
           $requestParams['shippingAddress']['houseNumber']    = $shippingAddress->houseNumber;
           $requestParams['shippingAddress']['companyName']    = $shippingAddress->companyName;
           $requestParams['shippingAddress']['stateId']        = $shippingAddress->stateId;
-          $requestParams['shippingAddress']['phone']        = $shippingAddress->phone;
+          $requestParams['shippingAddress']['phone']        = ($shippingAddress->phone != "") ? $shippingAddress->phone : "123456789";
           $requestParams['shippingAddress']['email']        = $shippingAddress->email;
         }
 

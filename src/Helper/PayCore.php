@@ -399,7 +399,7 @@ function getToken($conf){
  
       // EXECUTE:
       $response = curl_exec($curl);
-      print_r($response);
+      
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $response);
       // Retudn headers seperatly from the Response Body
       $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);

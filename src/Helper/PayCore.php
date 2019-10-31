@@ -278,7 +278,7 @@ function getToken($conf){
     $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
 
     $userData = $param['userData'];   
-    $orderId =  $param['ORDER.ID'];
+    $orderId =  $param['REQUEST']['ORDER.ID'];
     $apiKey =  $param['API.KEY'];
     $mode = $param['ENV.MODE'];
 
@@ -299,11 +299,11 @@ function getToken($conf){
     
     $successURL = $param['REQUEST']['CRITERION.SUCCESSURL'];
     $failURL = $param['REQUEST']['CRITERION.FAILURL'];
-    $cparam = '{"amount": '.( $param['AMOUNT'] * 100 ).',
+    $cparam = '{"amount": '.( $param['REQUEST']['AMOUNT'] * 100 ).',
             "3dsecure": true,
             "mode" : "'.$mode.'",
             "method_code":  "'.$param['tokenise']['method_code'].'",
-            "currency": "'.$param['CURRENCY'].'",
+            "currency": "'.$param['REQUEST']['CURRENCY'].'",
             "customer_id": "'.$cusId.'", 
             "account_token": "'.$param['tokenise']['card_token'].'",
             "session_id": "'.$param['tokenise']['session_id'].'",

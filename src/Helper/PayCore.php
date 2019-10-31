@@ -242,7 +242,7 @@ function genCardTokenWidget($twig, $param) {
 function registerAccountToken($conf, $customer_registered_id){
     // $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
 
-    $token_array = array("account_token" => $_POST['token_hidden_input'],"is_default" => true,"verify" => true);
+    $token_array = array("account_token" => $conf['tokenise']['card_token'],"is_default" => true,"verify" => true);
     $token_string = json_encode($token_array);
     $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $conf, $token_string);
     $response = json_decode($get_data, true);
@@ -300,11 +300,11 @@ function chargeApi($param, $cusId){
     $cparam = '{"amount": '.( $param['AMOUNT'] * 100 ).',
             "3dsecure": true,
             "mode" : "'.$mode.'",
-            "method_code":  "'.$_POST['method_code'].'",
+            "method_code":  "'.$param['tokenise']['method_code'].'",
             "currency": "'.$param['CURRENCY'].'",
             "customer_id": "'.$cusId.'", 
-            "account_token": "'.$_POST['token_hidden_input'].'",
-            "session_id": "'.$_POST['session_hidden_input'].'",
+            "account_token": "'.$param['tokenise']['card_token'].'",
+            "session_id": "'.$param['tokenise']['session_id'].'",
             "redirect_urls": {
                 "failure_url": "'.$failURL.'",
                 "success_url": "'.$successURL.'"

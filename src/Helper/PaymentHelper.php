@@ -247,4 +247,17 @@ class PaymentHelper
         return $paymentProperty;
     }
     
+    public function log($class, $method, $msg, $arg, $error = false)
+    {
+        $logger = $this->getLogger($class . '_' . $method);
+        if ($error) {
+            $logger->error($msg, $arg);
+        } else {
+            if (!is_array($arg)) {
+                $arg = [$arg];
+            }
+            $arg[] = $msg;
+            $logger->info('CeevoPayment::Logger.infoCaption', $arg);
+        }
+    }
 }

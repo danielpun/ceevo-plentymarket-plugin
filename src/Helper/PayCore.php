@@ -2,6 +2,7 @@
 namespace Cvpa\Helper;
 
 use Plenty\Plugin\ConfigRepository;
+use Cvpa\Helper\PaymentHelper;
 
 /**
  * Class PayCore
@@ -9,12 +10,13 @@ use Plenty\Plugin\ConfigRepository;
  */
 class PayCore
 {
-
+  private $helper;
   /**
    * ContactService constructor.
    */
-  public function __construct()
+  public function __construct(PaymentHelper $helper)
   {
+    $this->helper = $helper;
   }
 
   var $response   = '';
@@ -227,7 +229,7 @@ class PayCore
                   "street" => $userData['street'],"zip_or_postal"=> $userData['zip']),"email" => $userData['email'],"first_name" => $userData['firstname'],
                   "last_name" => $userData['lastname'],"mobile" => $userData['phone'],"phone" => $userData['phone']);  
     $data_string = json_encode($data);
-   
+    $this->helper->log(__CLASS__, __METHOD__, 'request', $data);
     $customer_id = $this->callAPI('POST', $url . '/payment/customer', $param, $data_string);
    
     return $customer_id;
@@ -240,39 +242,40 @@ function genCardTokenWidget($twig, $param) {
 }
 
 function registerAccountToken($conf, $customer_registered_id){
-    // $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
-
+    $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
     $token_array = array("account_token" => $conf['tokenise']['card_token'],"is_default" => true,"verify" => true);
+    $this->helper->log(__CLASS__, __METHOD__, 'request', $token_array);
     $token_string = json_encode($token_array);
     $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $conf, $token_string);
+    $this->helper->log(__CLASS__, __METHOD__, 'response', $get_data);
     $response = json_decode($get_data, true);
 }
 
 function getToken($conf){
-    $api = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_token_url : $this->test_token_url;
-    $param['grant_type'] = "client_credentials"; 
-    $param['client_id'] = $conf['CLIENT.ID']; 
-    $param['client_secret'] = $conf['CLIENT.SECRET']; 
-    $mode = $conf['ENV.MODE'];
+  $api = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_token_url : $this->test_token_url;
+  $param['grant_type'] = "client_credentials"; 
+  $param['client_id'] = $conf['CLIENT.ID']; 
+  $param['client_secret'] = $conf['CLIENT.SECRET']; 
+  $mode = $conf['ENV.MODE'];
 
-    $ch = curl_init(); 
-    curl_setopt($ch, CURLOPT_URL,$api); 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
-    //curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param));
-    $res = curl_exec($ch); 
-        
+  $ch = curl_init(); 
+  curl_setopt($ch, CURLOPT_URL,$api); 
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+  //curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+  
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param));
+  $res = curl_exec($ch); 
+      
+  $this->helper->log(__CLASS__, __METHOD__, '', $res);
+  $jres = json_decode($res, true);
 
-    $jres = json_decode($res, true);
-
-    $this->access_token  = $jres['access_token'];
-    return $this->access_token;
+  $this->access_token  = $jres['access_token'];
+  return $this->access_token;
 } 
 
-function chargeApi($param, $cusId){
+  function chargeApi($param, $cusId){
     $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
 
     $userData = $param['userData'];   
@@ -318,44 +321,45 @@ function chargeApi($param, $cusId){
                 "zip_or_postal": "'.$userData['zip'].'"
             },
             "user_email": "'.$userData['email'].'"}';
-    //print_r($cparam);
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL,$charge_api); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
-        //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    $this->helper->log(__CLASS__, __METHOD__, 'request', $cparam);
+    $ch = curl_init(); 
+    curl_setopt($ch, CURLOPT_URL,$charge_api); 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $cparam);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($cparam),
+            $authorization
+        )
+    );
+    $cres = curl_exec($ch);
+    $this->helper->log(__CLASS__, __METHOD__, 'response', $cres);
+
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headers = substr($cres, 0, $header_size);
+    $body = substr($cres, $header_size); 
+//print_r($headers);
+    curl_close($ch);
+    $transactionHeaders = $this->http_parse_headers($headers);
+    $transactionId = '';
+    $ThreedURL = ''; 
+    
+//print_r($transactionHeaders); die();
+    if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
         
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $cparam);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json; charset=utf-8',
-                'Content-Length: ' . strlen($cparam),
-                $authorization
-            )
-        );
-        $cres = curl_exec($ch);
+        $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+      }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
+        $ThreedURL   = $transactionHeaders['Location'];
+        $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+        $_SESSION['3durl'] = $ThreedURL;
         
-        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headers = substr($cres, 0, $header_size);
-        $body = substr($cres, $header_size); 
-    //print_r($headers);
-        curl_close($ch);
-        $transactionHeaders = $this->http_parse_headers($headers);
-        $transactionId = '';
-        $ThreedURL = ''; 
-        
-    //print_r($transactionHeaders); die();
-        if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
-            
-           $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-         }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
-            $ThreedURL   = $transactionHeaders['Location'];
-            $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-            $_SESSION['3durl'] = $ThreedURL;
-            
-         }
-        return $transactionId;
-    }
+      }
+    return $transactionId;
+  }
 
     function callAPI($method, $url, $conf, $data){
       $apiKey =  $conf['API.KEY'];
@@ -363,7 +367,7 @@ function chargeApi($param, $cusId){
   
        $authorization = "Authorization: Bearer $access_token";
       $curl = curl_init();
- 
+      $this->helper->log(__CLASS__, __METHOD__, $authorization, $data);
       switch ($method){
          case "POST":
             curl_setopt($curl, CURLOPT_POST, 1);
@@ -379,7 +383,7 @@ function chargeApi($param, $cusId){
             if ($data)
                $url = sprintf("%s?%s", $url, $data);
       }
- 
+      
       // OPTIONS:
       curl_setopt($curl, CURLOPT_URL, $url);
       curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -396,24 +400,25 @@ function chargeApi($param, $cusId){
  
       // EXECUTE:
       $response = curl_exec($curl);
+      $this->helper->log(__CLASS__, __METHOD__, 'response', $response);
       // Retudn headers seperatly from the Response Body
-        $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $headers = substr($response, 0, $header_size);
-        $body = substr($response, $header_size);
+      $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+      $headers = substr($response, 0, $header_size);
+      $body = substr($response, $header_size);
 
-        curl_close($curl);
-        header("Content-Type:text/plain; charset=UTF-8");
-         $transactionHeaders = $this->http_parse_headers($headers);
-          $cusId = '';
- 
-          if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
-              
-            $customerIdurl   = $transactionHeaders['Location'];
-            $remove_http = str_replace('http://', '', $customerIdurl);
-              $split_url = explode('?', $remove_http);
-              $get_page_name = explode('/', $split_url[0]);
-              $cusId = $get_page_name[4];
-          }
+      curl_close($curl);
+      header("Content-Type:text/plain; charset=UTF-8");
+      $transactionHeaders = $this->http_parse_headers($headers);
+      $cusId = '';
+      $this->helper->log(__CLASS__, __METHOD__, 'response header', $transactionHeaders);
+      if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
+          
+        $customerIdurl   = $transactionHeaders['Location'];
+        $remove_http = str_replace('http://', '', $customerIdurl);
+          $split_url = explode('?', $remove_http);
+          $get_page_name = explode('/', $split_url[0]);
+          $cusId = $get_page_name[4];
+      }
       return $cusId;
   }
 

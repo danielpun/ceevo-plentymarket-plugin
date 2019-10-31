@@ -365,7 +365,7 @@ function getToken($conf){
   
        $authorization = "Authorization: Bearer $access_token";
       $curl = curl_init();
-      PaymentHelper::log(__CLASS__, __METHOD__, $authorization, $data);
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $data);
       switch ($method){
          case "POST":
             curl_setopt($curl, CURLOPT_POST, 1);

@@ -1,6 +1,6 @@
 <?php //strict
 
-namespace Cvpa\Helper;
+namespace Ceevo\Helper;
 
 use Plenty\Modules\Payment\Models\PaymentProperty;
 use Plenty\Plugin\ConfigRepository;
@@ -13,11 +13,11 @@ use Plenty\Modules\Payment\Models\Payment;
 use Plenty\Modules\Order\Models\Order;
 use Plenty\Plugin\Log\Loggable;
 
-use Cvpa\Services\SessionStorageService;
+use Ceevo\Services\SessionStorageService;
 
 /**
  * Class PaymentHelper
- * @package Cvpa\Helper
+ * @package Ceevo\Helper
  */
 class PaymentHelper
 {
@@ -91,8 +91,8 @@ class PaymentHelper
         // Check whether the ID of the Pay upon pickup payment method has been created
         if($this->getPaymentMethod($paymethod) == 'no_paymentmethod_found')
         {
-            $paymentMethodData = array( 'pluginKey'   => 'cvpa',
-                                        'paymentKey'  => 'CVPA'.$paymethod,
+            $paymentMethodData = array( 'pluginKey'   => 'ceevo',
+                                        'paymentKey'  => 'CEEVO'.$paymethod,
                                         'name'        => 'Ceevo '.$payname);
  
             $this->paymentMethodRepository->createPaymentMethod($paymentMethodData);
@@ -108,13 +108,13 @@ class PaymentHelper
      */
     public function getPaymentMethod($paymethod)
     {
-        $paymentMethods = $this->paymentMethodRepository->allForPlugin('cvpa');
+        $paymentMethods = $this->paymentMethodRepository->allForPlugin('ceevo');
  
         if( !is_null($paymentMethods) )
         {
             foreach($paymentMethods as $paymentMethod)
             {
-                if($paymentMethod->paymentKey == 'CVPA'.$paymethod)
+                if($paymentMethod->paymentKey == 'CEEVO'.$paymethod)
                 {
                     return $paymentMethod->id;
                 }
@@ -257,7 +257,7 @@ class PaymentHelper
                 $arg = [$arg];
             }
             $arg[] = $msg;
-            $logger->info('Cvpa::Logger.infoCaption', $arg);
+            $logger->info('Ceevo::Logger.infoCaption', $arg);
         }
     }
 }

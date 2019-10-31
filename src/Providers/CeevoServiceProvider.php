@@ -1,6 +1,6 @@
 <?php // strict
 
-namespace Cvpa\Providers;
+namespace Ceevo\Providers;
 
 use Plenty\Modules\EventProcedures\Services\Entries\ProcedureEntry;
 use Plenty\Modules\EventProcedures\Services\EventProceduresService;
@@ -18,23 +18,23 @@ use Plenty\Plugin\Events\Dispatcher;
 use Plenty\Plugin\ServiceProvider;
 use Plenty\Plugin\Log\Loggable;
 
-use Cvpa\Services\PaymentService;
-use Cvpa\Helper\PaymentHelper;
-use Cvpa\Methods\CvpaPaymentMethodBase;
-use Cvpa\Methods\CvpaPaymentMethodCV;
-// use Cvpa\Methods\CvpaPaymentMethodDC;
-// use Cvpa\Methods\CvpaPaymentMethodDD;
-// use Cvpa\Methods\CvpaPaymentMethodOTSU;
-// use Cvpa\Methods\CvpaPaymentMethodOTGP;
-// use Cvpa\Methods\CvpaPaymentMethodOTIDL;
-// use Cvpa\Methods\CvpaPaymentMethodPF;
-// use Cvpa\Methods\CvpaPaymentMethodPP;
+use Ceevo\Services\PaymentService;
+use Ceevo\Helper\PaymentHelper;
+use Ceevo\Methods\CeevoPaymentMethodBase;
+use Ceevo\Methods\CeevoPaymentMethodCV;
+// use Ceevo\Methods\CeevoPaymentMethodDC;
+// use Ceevo\Methods\CeevoPaymentMethodDD;
+// use Ceevo\Methods\CeevoPaymentMethodOTSU;
+// use Ceevo\Methods\CeevoPaymentMethodOTGP;
+// use Ceevo\Methods\CeevoPaymentMethodOTIDL;
+// use Ceevo\Methods\CeevoPaymentMethodPF;
+// use Ceevo\Methods\CeevoPaymentMethodPP;
 
 /**
- * Class CvpaServiceProvider
- * @package Cvpa\Providers
+ * Class CeevoServiceProvider
+ * @package Ceevo\Providers
  */
-class CvpaServiceProvider extends ServiceProvider
+class CeevoServiceProvider extends ServiceProvider
 {
   use Loggable;
   var $availablePayments = array(
@@ -56,7 +56,7 @@ class CvpaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      $this->getApplication()->register(CvpaRouteServiceProvider::class);
+      $this->getApplication()->register(CeevoRouteServiceProvider::class);
       //$this->getApplication()->bind(RefundEventProcedure::class);
     }
     
@@ -81,8 +81,8 @@ class CvpaServiceProvider extends ServiceProvider
         // Create the ID of the payment method if it doesn't exist yet
         $paymentHelper->createMopIfNotExists($k, $v);
     
-        $regName = 'cvpa::CVPA'.$k;
-        $className = 'Cvpa\Methods\CvpaPaymentMethod'.$k; 
+        $regName = 'ceevo::CEEVO'.$k;
+        $className = 'Ceevo\Methods\CeevoPaymentMethod'.$k; 
         // Register the payment method in the payment method container
         $payContainer->register($regName, $className, [ AfterBasketChanged::class, AfterBasketItemAdd::class, AfterBasketCreate::class ]);
       }
@@ -105,10 +105,10 @@ class CvpaServiceProvider extends ServiceProvider
                 }
                 //$output.= 'basket: '.$paymentService->getPaymentContent($basket, $selectedPaymethod);
                 $this
-                ->getLogger('CvpaServiceProvider::boot::GetPaymentMethodContent')
+                ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
                 ->setReferenceType('this')
                 ->setReferenceValue($this)
-                ->info('CvpaServiceProvider', [
+                ->info('CeevoServiceProvider', [
                   'this' => $this,
                   'basket' => $basket, 
                 ]);
@@ -120,10 +120,10 @@ class CvpaServiceProvider extends ServiceProvider
                 $event->setType('htmlContent');
                 
                 $this
-                  ->getLogger('CvpaServiceProvider::boot::GetPaymentMethodContent')
+                  ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
-                  ->info('CvpaServiceProvider', [
+                  ->info('CeevoServiceProvider', [
                     'this' => $this,
                     'basket' => $basket, 
                   ]);
@@ -148,10 +148,10 @@ class CvpaServiceProvider extends ServiceProvider
                 $paymentRes = $paymentService->executePayment($event->getOrderId(), $selectedPaymethod, $selectedMopID);
                 
                 $this
-                  ->getLogger('CvpaServiceProvider::boot::ExecutePayment')
+                  ->getLogger('CeevoServiceProvider::boot::ExecutePayment')
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
-                  ->info('CvpaServiceProvider', [
+                  ->info('CeevoServiceProvider', [
                     'this' => $this,
                     'getOrderId' => $event->getOrderId(),
                     'selectedPaymethod' => $selectedPaymethod, 

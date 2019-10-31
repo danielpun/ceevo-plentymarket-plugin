@@ -1,5 +1,5 @@
 <?php
-namespace Cvpa\Providers;
+namespace Ceevo\Providers;
 
 use Plenty\Plugin\Templates\Twig;
 

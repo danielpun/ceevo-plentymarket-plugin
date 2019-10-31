@@ -1,6 +1,6 @@
 <?php
 
-namespace Cvpa\Controllers;
+namespace Ceevo\Controllers;
 
 use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Http\Response;
@@ -13,12 +13,12 @@ use Plenty\Modules\Payment\Models\Payment;
 use Plenty\Modules\Order\Models\Order;
 use Plenty\Plugin\ConfigRepository;
 use Plenty\Plugin\Templates\Twig;
-use Cvpa\Helper\PaymentHelper;
-use Cvpa\Services\SessionStorageService;
+use Ceevo\Helper\PaymentHelper;
+use Ceevo\Services\SessionStorageService;
 use Plenty\Plugin\Log\Loggable;
 
 
-class CvpaResponseController extends Controller
+class CeevoResponseController extends Controller
 {
     use Loggable;
 
@@ -70,7 +70,7 @@ class CvpaResponseController extends Controller
      * @param PaymentHelper $paymentHelper
      * @param SessionStorageService $sessionStorage
      * @param OrderRepositoryContract $orderRepo
-     * @param \Cvpa\Controllers\ConfigRepository $config
+     * @param \Ceevo\Controllers\ConfigRepository $config
      */
     public function __construct(Request $request,
                                 Response $response,
@@ -108,7 +108,7 @@ class CvpaResponseController extends Controller
     {
       $sender = $this->config->get('Ceevo.security_sender');
       $chksum = md5($_GET['trxid'].$_GET['uniqueid'].$sender);
-      $this->getLogger('CvpaResponseController_checkoutSuccess')->info('data', ['get' => $_GET, 'sender' => $sender, 'chksum' => $chksum]);
+      $this->getLogger('CeevoResponseController_checkoutSuccess')->info('data', ['get' => $_GET, 'sender' => $sender, 'chksum' => $chksum]);
       if ($_GET['chksum'] != $chksum){
         return $this->response->redirectTo('checkout');
       }
@@ -130,7 +130,7 @@ class CvpaResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
         
-        $this->getLogger('CvpaResponseController_handleResponse')->info('post', ['data' => $data]);
+        $this->getLogger('CeevoResponseController_handleResponse')->info('post', ['data' => $data]);
         
         if ($data['PROCESSING.RESULT'] != 'ACK'){
           return urldecode($data['CRITERION.FAILURL'].'?ps='.$data['PROCESSING.STATUS'].'&pr='.$data['PROCESSING.RETURN']);
@@ -154,7 +154,7 @@ class CvpaResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
         
-        $this->getLogger('CvpaResponseController_handleCardToken')->info('post', ['data' => $data]);
+        $this->getLogger('CeevoResponseController_handleCardToken')->info('post', ['data' => $data]);
         
         return $data;
     }

@@ -1,6 +1,6 @@
 <?php // strict
 
-namespace Cvpa\Methods;
+namespace Ceevo\Methods;
 
 use Plenty\Modules\Account\Contact\Contracts\ContactRepositoryContract;
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
@@ -10,10 +10,10 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Application;
 
 /**
- * Class CvpaPaymentMethod
- * @package Cvpa\Methods
+ * Class CeevoPaymentMethod
+ * @package Ceevo\Methods
  */
-class CvpaPaymentMethodBase extends PaymentMethodService
+class CeevoPaymentMethodBase extends PaymentMethodService
 {
     use Loggable;
     /**
@@ -71,10 +71,10 @@ class CvpaPaymentMethodBase extends PaymentMethodService
     {
       /*
       $this
-         ->getLogger('CvpaPaymentMethodBase::isActive')
+         ->getLogger('CeevoPaymentMethodBase::isActive')
          //->setReferenceType('this')
          //->setReferenceValue($this)
-         ->info('CvpaPaymentMethod', [
+         ->info('CeevoPaymentMethod', [
            'this' => $this,
            'name_' => $this->configRepo->get('Ceevo.name_'.strtolower($this->type)), 
            'status_' => $this->configRepo->get('Ceevo.status_'.strtolower($this->type)),
@@ -95,7 +95,7 @@ class CvpaPaymentMethodBase extends PaymentMethodService
       $name = $this->configRepo->get('Ceevo.name_'.strtolower($this->type));
       if(!strlen($name))
       {
-          $name = 'Cvpa '.strtoupper($this->type);
+          $name = 'Ceevo '.strtoupper($this->type);
       }
       return $name;
     }

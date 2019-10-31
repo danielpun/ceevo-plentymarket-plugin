@@ -1,19 +1,19 @@
 <?php // strict
 
-namespace Cvpa\Methods;
+namespace Ceevo\Methods;
 
 use Plenty\Modules\Account\Contact\Contracts\ContactRepositoryContract;
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
 use Plenty\Modules\Payment\Method\Contracts\PaymentMethodService;
 use Plenty\Plugin\ConfigRepository;
 
-use Cvpa\Methods\CvpaPaymentMethodBase;
+use Ceevo\Methods\CeevoPaymentMethodBase;
 
 /**
- * Class CvpaPaymentMethod
- * @package Cvpa\Methods
+ * Class CeevoPaymentMethod
+ * @package Ceevo\Methods
  */
-class CvpaPaymentMethodCV extends CvpaPaymentMethodBase
+class CeevoPaymentMethodCV extends CeevoPaymentMethodBase
 {
   var $type = 'CV';
 }

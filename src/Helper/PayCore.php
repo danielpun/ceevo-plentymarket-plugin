@@ -1,12 +1,12 @@
 <?php
-namespace Cvpa\Helper;
+namespace Ceevo\Helper;
 
 use Plenty\Plugin\ConfigRepository;
-use Cvpa\Helper\PaymentHelper;
+use Ceevo\Helper\PaymentHelper;
 
 /**
  * Class PayCore
- * @package Cvpa\Helper
+ * @package Ceevo\Helper
  */
 class PayCore
 {

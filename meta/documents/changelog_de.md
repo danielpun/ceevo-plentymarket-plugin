@@ -25,7 +25,7 @@
 - Unnötige use statements entfernt.
 - Paymethod installation mit vorheriger Prüfung versehen.
 - ExecutePayment mit Abfrage der gewählten Zahlart versehen. (Modal Bug)
-- Route auf payment/cvpa geändert
+- Route auf payment/ceevo geändert
 - auskommentierten Code entfernt.
 - Performance Optimierung
 

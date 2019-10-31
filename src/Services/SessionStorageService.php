@@ -1,12 +1,12 @@
 <?php //strict
 
-namespace Cvpa\Services;
+namespace Ceevo\Services;
 
 use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
 
 /**
  * Class SessionStorageService
- * @package Cvpa\Services
+ * @package Ceevo\Services
  */
 class SessionStorageService
 {

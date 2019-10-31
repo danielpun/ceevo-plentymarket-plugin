@@ -1,6 +1,6 @@
 <?php //strict
 
-namespace Cvpa\Services;
+namespace Ceevo\Services;
 
 use Plenty\Modules\Basket\Models\BasketItem;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
@@ -14,12 +14,12 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Modules\Order\Models\Order;
 use Plenty\Modules\Order\Contracts\OrderRepositoryContract;
 
-use Cvpa\Helper\PaymentHelper;
-use Cvpa\Helper\PayCore;
-use Cvpa\Services\SessionStorageService;
+use Ceevo\Helper\PaymentHelper;
+use Ceevo\Helper\PayCore;
+use Ceevo\Services\SessionStorageService;
 
 /**
- * @package Cvpa\Services
+ * @package Ceevo\Services
  */
 class PaymentService
 {
@@ -258,7 +258,7 @@ class PaymentService
         $requestParams['country'] = $country;
         $requestParams['countryDetails'] = $countryRepo->getCountryById($basket->shippingCountryId);
         
-        //$payCore = pluginApp(Cvpa\Helper\PayCore::class);
+        //$payCore = pluginApp(Ceevo\Helper\PayCore::class);
         $payCore = $this->payCore;
         $orderId = $basket->id;
         $amount = $basket->basketAmount;
@@ -293,15 +293,15 @@ class PaymentService
         );
 
         $requestParams['userData'] = $userData;
-        $requestParams['tokenUrl'] = $domain.'/payment/cvpa/card_token';
+        $requestParams['tokenUrl'] = $domain.'/payment/ceevo/card_token';
         $requestParams['REQUEST']['ORDER.ID'] = $orderId;
         $requestParams['REQUEST']['AMOUNT'] = $amount;
         $requestParams['REQUEST']['CURRENCY'] = $currency;
         // $requestParams['REQUEST'] = $payCore->prepareData($orderId, $amount, $currency, $conf, $userData);
         $requestParams['REQUEST']['CRITERION.MOPID'] = $mopID;
         $requestParams['REQUEST']['CRITERION.PM'] = $selectedPaymethod;
-        $requestParams['REQUEST']['CRITERION.FAILURL'] = $domain.'/payment/cvpa/checkout_failure';
-        $requestParams['REQUEST']['CRITERION.SUCCESSURL'] = $domain.'/payment/cvpa/checkout_success';        
+        $requestParams['REQUEST']['CRITERION.FAILURL'] = $domain.'/payment/ceevo/checkout_failure';
+        $requestParams['REQUEST']['CRITERION.SUCCESSURL'] = $domain.'/payment/ceevo/checkout_success';        
         $requestParams['REQUEST']['CRITERION.PLACEURL'] = $domain.'/place-order';
         // $requestParams['REQUEST']['CRITERION.RESPONSEURL'] = $conf['RESPONSE_URL'];
         $i=1;

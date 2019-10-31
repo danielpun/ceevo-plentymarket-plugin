@@ -1,12 +1,12 @@
 <?php
 
-namespace Cvpa\Containers;
+namespace Ceevo\Containers;
  
 use Plenty\Plugin\Templates\Twig;
 
-use Cvpa\Services\SessionStorageService;
+use Ceevo\Services\SessionStorageService;
  
-class CvpaErrorContainer
+class CeevoErrorContainer
 {
     /**
      * @var SessionStorageService

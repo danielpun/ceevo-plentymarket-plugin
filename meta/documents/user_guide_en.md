@@ -28,7 +28,7 @@ Before using the full functionality of the plugin, you first have to connect you
 2. Click on CRM in Left Navi
 3. Click on Classes in Left Navi
 4. Click on small + Top Left
-5. Select all Classes with Cvpa or Ceevo under Permitted payment methods.
+5. Select all Classes with Ceevo or Ceevo under Permitted payment methods.
 6. Click on save button.
 
 ## Linking template containers

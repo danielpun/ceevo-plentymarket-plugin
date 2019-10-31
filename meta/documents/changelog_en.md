@@ -24,7 +24,7 @@
 - removed not needed use statements.
 - added check to paymethod installation.
 - added selected payment check to ExecutePayment. (Modal Bug)
-- changed route to payment/cvpa
+- changed route to payment/ceevo
 - commented code removed.
 - optimized performance
 

@@ -1,7 +1,7 @@
 {
     "name": "Ceevo",
     "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test"},
-    "namespace": "Cvpa",
+    "namespace": "Ceevo",
     "type": "payment",  
     "version": "0.0.30",
     "license": "Copyright by Ceevo AG",
@@ -16,17 +16,17 @@
     "authorIcon": "icon_author_xs.png",
     "email": "tobias.eilers@ceevo.com",
     "phone": "+49 8151 18759-0",
-    "serviceProvider": "Cvpa\\Providers\\CvpaServiceProvider",
+    "serviceProvider": "Ceevo\\Providers\\CeevoServiceProvider",
     "containers": [],
     "dataProviders"         :
     [
         {
-            "key"           :"Cvpa\\Containers\\CvpaErrorContainer",
+            "key"           :"Ceevo\\Containers\\CeevoErrorContainer",
             "name"          :"Error Messages",
             "description"   :"Display a error message in checkout"
         },
         {
-            "key"           :"Cvpa\\Providers\\IconProvider",
+            "key"           :"Ceevo\\Providers\\IconProvider",
             "name"          :"CeevoPayment icon",
             "description"   :"Display the icon for this payment method"
         }

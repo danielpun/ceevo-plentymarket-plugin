@@ -31,7 +31,7 @@ Bevor Sie die Funktionen des Plugins nutzen können, müssen Sie zuerst Ihr Ceev
 2. Klick auf CRM links in der Navi
 3. Klick auf Klassen/Classes in der Navi links
 4. Klick auf das kleine + oben links
-5. Wählen Sie alle Klassen mit dem Namen Cvpa oder Ceevo unter Permitted payment methods aus.
+5. Wählen Sie alle Klassen mit dem Namen Ceevo oder Ceevo unter Permitted payment methods aus.
 6. Klick auf Speichern links unten.
 
 ## Template-Container verknüpfen

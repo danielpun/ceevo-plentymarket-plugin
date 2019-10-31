@@ -257,7 +257,7 @@ class PaymentHelper
                 $arg = [$arg];
             }
             $arg[] = $msg;
-            $logger->info('CeevoPayment::Logger.infoCaption', $arg);
+            $logger->info('Cvpa::logger.infoCaption', $arg);
         }
     }
 }

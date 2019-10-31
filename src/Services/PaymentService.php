@@ -212,14 +212,17 @@ class PaymentService
         {
             /** @var \Plenty\Modules\Item\Item\Models\Item $item */
             $item = $itemContract->show($basketItem->itemId);
+            $basketItem['itemId'] = $basketItem->itemId;
+            $basketItem['quantity'] = $basketItem->quantity;
+            $basketItem['price'] = $basketItem->price;
 
-            $basketItem = $basketItem->getAttributes();
+            // $basketItem = $basketItem->getAttributes();
 
             /** @var \Plenty\Modules\Item\Item\Models\ItemText $itemText */
             $itemText = $item->texts;
 
             $basketItem['name'] = $itemText->first()->name1;
-            $basketItem['price'] = $itemText->first()->price;
+            
 
             $requestParams['basketItems'][] = $basketItem;
         }

@@ -2,6 +2,7 @@
 namespace Ceevo\Helper;
 
 use Plenty\Plugin\ConfigRepository;
+use Plenty\Plugin\Log\Loggable;
 
 /**
  * Class PayCore
@@ -9,6 +10,7 @@ use Plenty\Plugin\ConfigRepository;
  */
 class PayCore
 {
+  use Loggable;
   /**
    * ContactService constructor.
    */

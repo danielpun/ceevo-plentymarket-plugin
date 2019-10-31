@@ -10,13 +10,11 @@ use Ceevo\Helper\PaymentHelper;
  */
 class PayCore
 {
-  private $helper;
   /**
    * ContactService constructor.
    */
-  public function __construct(PaymentHelper $helper)
+  public function __construct()
   {
-    $this->helper = $helper;
   }
 
   var $response   = '';
@@ -229,7 +227,7 @@ class PayCore
                   "street" => $userData['street'],"zip_or_postal"=> $userData['zip']),"email" => $userData['email'],"first_name" => $userData['firstname'],
                   "last_name" => $userData['lastname'],"mobile" => $userData['phone'],"phone" => $userData['phone']);  
     $data_string = json_encode($data);
-    $this->helper->log(__CLASS__, __METHOD__, 'request', $data);
+    PaymentHelper::log(__CLASS__, __METHOD__, 'request', $data);
     $customer_id = $this->callAPI('POST', $url . '/payment/customer', $param, $data_string);
    
     return $customer_id;
@@ -244,10 +242,10 @@ function genCardTokenWidget($twig, $param) {
 function registerAccountToken($conf, $customer_registered_id){
     $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
     $token_array = array("account_token" => $conf['tokenise']['card_token'],"is_default" => true,"verify" => true);
-    $this->helper->log(__CLASS__, __METHOD__, 'request', $token_array);
+    PaymentHelper::log(__CLASS__, __METHOD__, 'request', $token_array);
     $token_string = json_encode($token_array);
     $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $conf, $token_string);
-    $this->helper->log(__CLASS__, __METHOD__, 'response', $get_data);
+    PaymentHelper::log(__CLASS__, __METHOD__, 'response', $get_data);
     $response = json_decode($get_data, true);
 }
 
@@ -268,7 +266,7 @@ function getToken($conf){
   curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($param));
   $res = curl_exec($ch); 
       
-  $this->helper->log(__CLASS__, __METHOD__, '', $res);
+  PaymentHelper::log(__CLASS__, __METHOD__, '', $res);
   $jres = json_decode($res, true);
 
   $this->access_token  = $jres['access_token'];
@@ -321,7 +319,7 @@ function getToken($conf){
                 "zip_or_postal": "'.$userData['zip'].'"
             },
             "user_email": "'.$userData['email'].'"}';
-    $this->helper->log(__CLASS__, __METHOD__, 'request', $cparam);
+    PaymentHelper::log(__CLASS__, __METHOD__, 'request', $cparam);
     $ch = curl_init(); 
     curl_setopt($ch, CURLOPT_URL,$charge_api); 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
@@ -337,7 +335,7 @@ function getToken($conf){
         )
     );
     $cres = curl_exec($ch);
-    $this->helper->log(__CLASS__, __METHOD__, 'response', $cres);
+    PaymentHelper::log(__CLASS__, __METHOD__, 'response', $cres);
 
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headers = substr($cres, 0, $header_size);
@@ -367,7 +365,7 @@ function getToken($conf){
   
        $authorization = "Authorization: Bearer $access_token";
       $curl = curl_init();
-      $this->helper->log(__CLASS__, __METHOD__, $authorization, $data);
+      PaymentHelper::log(__CLASS__, __METHOD__, $authorization, $data);
       switch ($method){
          case "POST":
             curl_setopt($curl, CURLOPT_POST, 1);
@@ -400,7 +398,7 @@ function getToken($conf){
  
       // EXECUTE:
       $response = curl_exec($curl);
-      $this->helper->log(__CLASS__, __METHOD__, 'response', $response);
+      PaymentHelper::log(__CLASS__, __METHOD__, 'response', $response);
       // Retudn headers seperatly from the Response Body
       $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
       $headers = substr($response, 0, $header_size);
@@ -410,7 +408,7 @@ function getToken($conf){
       header("Content-Type:text/plain; charset=UTF-8");
       $transactionHeaders = $this->http_parse_headers($headers);
       $cusId = '';
-      $this->helper->log(__CLASS__, __METHOD__, 'response header', $transactionHeaders);
+      PaymentHelper::log(__CLASS__, __METHOD__, 'response header', $transactionHeaders);
       if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
           
         $customerIdurl   = $transactionHeaders['Location'];

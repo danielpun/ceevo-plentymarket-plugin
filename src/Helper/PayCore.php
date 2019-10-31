@@ -247,6 +247,7 @@ function registerAccountToken($conf, $customer_registered_id){
     $token_string = json_encode($token_array);
     $get_data = $this->callAPI('POST', $url . '/payment/customer/'.$customer_registered_id, $conf, $token_string);
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $get_data);
+    
     $response = json_decode($get_data, true);
 }
 
@@ -398,6 +399,7 @@ function getToken($conf){
  
       // EXECUTE:
       $response = curl_exec($curl);
+      print_r($response);
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $response);
       // Retudn headers seperatly from the Response Body
       $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);

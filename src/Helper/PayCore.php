@@ -108,7 +108,7 @@ class PayCore
     }
     $itemString = implode(',',$items_array);
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $itemString);
-    
+
     $access_token = $this->access_token;    
     $authorization = "Authorization: Bearer $access_token";   
     $charge_api = $url . "/payment/charge";        
@@ -128,6 +128,7 @@ class PayCore
                 "failure_url": "'.$failURL.'",
                 "success_url": "'.$successURL.'"
             },
+            "cart_items": ['.$itemString.'],
             "reference_id": "'.$orderId.'",
             "shipping_address": {
                 "city": "'.$userData['city'].'",

@@ -142,6 +142,43 @@ class CeevoResponseController extends Controller
         }
     }
 
+    public function getTokenFrame() {
+      echo '<!DOCTYPE html>
+      <html>
+      <meta charset="utf-8">
+      <body>
+      <form id="checkout_form" action="" method="POST">
+      </form>
+      <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+      <script type="text/javascript" language="JavaScript">
+        $(document).ready(function(){ 
+          var price = parent.document.getElementById("price").value;
+          var currency = parent.document.getElementById("currency").value;
+          document.getElementById("checkout_form").action = parent.document.getElementById("tokenUrl").value;
+          var apiUrl = parent.document.getElementById("apiUrl").value;
+          var apiKey = parent.document.getElementById("apiKey").value;
+          var mode = parent.document.getElementById("mode").value;
+          var script = document.createElement("script");
+          script.src = apiUrl + "/ceevo.js";
+          var formId = "form#checkout_form";
+          var config = {
+            envMode: mode, // LIVE
+          };
+      
+          $.getScript(script.src, function() {
+            var ceevoPayment = new CeevoPayment(apiKey, formId, config);
+      
+            var widget = ceevoPayment.widget();
+            widget.setPrice(price);
+            widget.setCurrency(currency);
+            widget.open();
+          });
+        });
+      </script>
+      </body>
+      </html>';
+    }
+
     public function handleCardToken()
     {
         $headers = $this->request->header();

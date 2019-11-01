@@ -309,7 +309,6 @@ function getToken($conf){
     $successURL = $param['REQUEST']['CRITERION.SUCCESSURL'];
     $failURL = $param['REQUEST']['CRITERION.FAILURL'];
     $cparam = '{"amount": '.( $param['REQUEST']['AMOUNT'] * 100 ).',
-            "3dsecure": '.$param['tokenise']['3dsecure'].',
             "mode" : "'.$mode.'",
             "method_code":  "'.$param['tokenise']['method_code'].'",
             "currency": "'.$param['REQUEST']['CURRENCY'].'",
@@ -350,23 +349,21 @@ function getToken($conf){
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headers = substr($cres, 0, $header_size);
     $body = substr($cres, $header_size); 
-//print_r($headers);
+
     curl_close($ch);
-    $transactionHeaders = $this->http_parse_headers($headers);
-    $transactionId = '';
-    $ThreedURL = ''; 
-    
-//print_r($transactionHeaders); die();
-    if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {
-        
-        $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-      }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
-        $ThreedURL   = $transactionHeaders['Location'];
-        $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-        $_SESSION['3durl'] = $ThreedURL;
-        
-      }
-    return $transactionId;
+    // $transactionHeaders = $this->http_parse_headers($headers);
+    // $transactionId = '';
+    // $ThreedURL = ''; 
+
+    // if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
+    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+    // }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
+    //   $ThreedURL   = $transactionHeaders['Location'];
+    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+    //   $_SESSION['3durl'] = $ThreedURL;      
+    // }
+
+    return $cres;
   }
 
     function callAPI($method, $url, $conf, $data){

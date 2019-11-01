@@ -334,8 +334,8 @@ class PaymentService
       $customer_id = $payCore->createCustomer($requestParams);
       $payCore->registerAccountToken($requestParams, $customer_id );
       $transaction_id = $payCore->chargeApi($requestParams, $customer_id);
-      $content = "access_token = $access_token, customer_id = $customer_id, transaction_id = $transaction_id";
-      // $content = $payCore->genCardTokenWidget($twig, $requestParams);
+      // $content = "access_token = $access_token, customer_id = $customer_id, transaction_id = $transaction_id";
+      $content = $payCore->genCardTokenWidget($twig, $requestParams);
 
 
       // $rawRes = $payCore->doRequest($requestParams['REQUEST']);

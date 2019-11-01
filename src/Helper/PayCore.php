@@ -236,8 +236,16 @@ class PayCore
 
 function genCardTokenWidget($twig, $param) {
   $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_sdk_url : $this->test_sdk_url;
-  return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
-                        'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $param['tokenUrl']]);
+  $content = '<center><iframe src="https://payment.test.transact24.com:8443/test/ceevo-payment-sdk-for-widget-onload-frame.html" frameborder="0" width="100%" height="100%"></iframe></center>
+    <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="'.$param['PRICE'].'">
+    <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="'.$param['CURRENCY'].'">
+    <input id="tokenUrl" name="tokenUrl" type="hidden" placeholder="" class="input-xlarge" value="'.$param['tokenUrl'].'">
+    <input id="apiUrl" name="apiUrl" type="hidden" placeholder="" class="input-xlarge" value="'.$param['apiUrl'].'">
+    <input id="apiKey" name="apiKey" type="hidden" placeholder="" class="input-xlarge" value="'.$param['API.KEY'].'">
+    <input id="mode" name="mode" type="hidden" placeholder="" class="input-xlarge" value="'.$param['ENV.MODE'].'">';
+  return $content;
+  // return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
+  //                       'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $param['tokenUrl']]);
 }
 
 function registerAccountToken($conf, $customer_registered_id){

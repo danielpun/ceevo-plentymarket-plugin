@@ -8,18 +8,18 @@
   }
 </style>
 </head>
-<body>1
+<body>2
 <form id="checkout_form" action="" method="POST">
 </form>
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">
   $(document).ready(function(){ 
-    var price = parent.document.getElementById("price").value;
-    var currency = parent.document.getElementById("currency").value;
-    document.getElementById("checkout_form").action = parent.document.getElementById("tokenUrl").value;
-    var apiUrl = parent.document.getElementById("apiUrl").value;
-    var apiKey = parent.document.getElementById("apiKey").value;
-    var mode = parent.document.getElementById("mode").value;
+    var price = {{price}};
+    var currency = {{currency}};
+    document.getElementById("checkout_form").action = {{tokenUrl}};
+    var apiUrl = {{apiUrl}};
+    var apiKey = {{apiKey}};
+    var mode = {{mode}};
     var script = document.createElement("script");
     script.src = apiUrl + "/ceevo.js";
     var formId = "form#checkout_form";

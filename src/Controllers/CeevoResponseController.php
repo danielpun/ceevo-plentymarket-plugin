@@ -147,7 +147,9 @@ class CeevoResponseController extends Controller
 
     public function getTokenFrame(Twig $twig) {
       $requestParams = $this->sessionStorage->getSessionValue('requestParams');
-      return $twig->render('Ceevo::content.tokenise', ['requestParams' => $requestParams]);
+      $apiUrl = "https://sdk-beta.ceevo.com";
+      return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['PRICE'], 
+                            'currency' => $requestParams['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $requestParams['tokenUrl']]);
       // echo '<!DOCTYPE html>
       // <html>      
       // <head>

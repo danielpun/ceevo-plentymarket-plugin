@@ -237,13 +237,7 @@ class PayCore
 function genCardTokenWidget($twig, $param) {
   $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_sdk_url : $this->test_sdk_url;
   $content = '<button type="button" data-dismiss="modal" aria-label="Close" class="close" onclick="location.href=\'/checkout\'"><span aria-hidden="true">×</span></button>
-  <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="800px"></iframe></center>
-    <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="'.$param['REQUEST']['AMOUNT'].'">
-    <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="'.$param['REQUEST']['CURRENCY'].'">
-    <input id="tokenUrl" name="tokenUrl" type="hidden" placeholder="" class="input-xlarge" value="'.$param['tokenUrl'].'">
-    <input id="apiUrl" name="apiUrl" type="hidden" placeholder="" class="input-xlarge" value="'.$apiUrl.'">
-    <input id="apiKey" name="apiKey" type="hidden" placeholder="" class="input-xlarge" value="'.$param['API.KEY'].'">
-    <input id="mode" name="mode" type="hidden" placeholder="" class="input-xlarge" value="'.$param['ENV.MODE'].'">';
+  <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="800px"></iframe></center>';
   return $content;
   // return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
   //                       'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $param['tokenUrl']]);
@@ -310,6 +304,7 @@ function getToken($conf){
     $failURL = $param['REQUEST']['CRITERION.FAILURL'];
     $cparam = '{"amount": '.( $param['REQUEST']['AMOUNT'] * 100 ).',
             "3dsecure": true,
+            "capture": true,
             "mode" : "'.$mode.'",
             "method_code":  "'.$param['tokenise']['method_code'].'",
             "currency": "'.$param['REQUEST']['CURRENCY'].'",

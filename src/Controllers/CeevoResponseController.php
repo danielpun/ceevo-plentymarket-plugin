@@ -13,9 +13,11 @@ use Plenty\Modules\Payment\Models\Payment;
 use Plenty\Modules\Order\Models\Order;
 use Plenty\Plugin\ConfigRepository;
 use Plenty\Plugin\Templates\Twig;
+use Plenty\Plugin\Log\Loggable;
+
 use Ceevo\Helper\PaymentHelper;
 use Ceevo\Services\SessionStorageService;
-use Plenty\Plugin\Log\Loggable;
+use Ceevo\Helper\PayCore;
 
 
 class CeevoResponseController extends Controller
@@ -57,7 +59,7 @@ class CeevoResponseController extends Controller
      */
     private $config;
     
-    
+    private $payCore;
      
     
   
@@ -77,7 +79,8 @@ class CeevoResponseController extends Controller
                                 PaymentRepositoryContract $paymentRepository,
                                 PaymentHelper $paymentHelper,
                                 SessionStorageService $sessionStorage,
-                                OrderRepositoryContract $orderRepo,                               
+                                OrderRepositoryContract $orderRepo,
+                                PayCore $payCore,                               
                                 ConfigRepository $config)
     {
         $this->request            = $request;
@@ -87,7 +90,7 @@ class CeevoResponseController extends Controller
         $this->orderRepo          = $orderRepo;
         $this->sessionStorage     = $sessionStorage;
         $this->config             = $config;
-      
+        $this->payCore             = $payCore;
        
     }
 
@@ -144,8 +147,15 @@ class CeevoResponseController extends Controller
 
     public function getTokenFrame() {
       echo '<!DOCTYPE html>
-      <html>
+      <html>      
+      <head>
       <meta charset="utf-8">
+      <style type="text/css">
+        .ceevo__payment-wedgit {
+          padding-top: 0px !important;
+        }
+      </style>
+      </head>
       <body>
       <form id="checkout_form" action="" method="POST">
       </form>
@@ -162,12 +172,11 @@ class CeevoResponseController extends Controller
           script.src = apiUrl + "/ceevo.js";
           var formId = "form#checkout_form";
           var config = {
-            envMode: mode, // LIVE
+            envMode: mode,
           };
       
           $.getScript(script.src, function() {
-            var ceevoPayment = new CeevoPayment(apiKey, formId, config);
-      
+            var ceevoPayment = new CeevoPayment(apiKey, formId, config);      
             var widget = ceevoPayment.widget();
             widget.setPrice(price);
             widget.setCurrency(currency);
@@ -193,6 +202,12 @@ class CeevoResponseController extends Controller
         
         $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
         
+        $payCore = $this->payCore;
+      $access_token = $payCore->getToken($requestParams);
+      $requestParams['tokenise'] = $data;
+      $customer_id = $payCore->createCustomer($requestParams);
+      $payCore->registerAccountToken($requestParams, $customer_id );
+      $transaction_id = $payCore->chargeApi($requestParams, $customer_id);
         return $data;
     }
 

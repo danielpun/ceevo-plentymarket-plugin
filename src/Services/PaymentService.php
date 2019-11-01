@@ -326,14 +326,14 @@ class PaymentService
       $selectedPaymethod = strtolower($selectedPaymethod);
       $requestParams = $this->getApiParams($basket, $selectedPaymethod, $mopID);
 
-      $payCore = $this->payCore;
-      $access_token = $payCore->getToken($requestParams);
-      $requestParams['tokenise'] = array( "3dsecure"=>  "true" ,
-      "price"=>  "1234", "currency"=> "EUR","referenceId"=>"dantest123",
-      "card_token"=> "017dd335-b311-4bf9-8d0b-5eae5c1ee82c","session_id"=>"f8314df7-8152-4ca3-b4d1-141ba6dda16f","method_code"=>"CARDS" );
-      $customer_id = $payCore->createCustomer($requestParams);
-      $payCore->registerAccountToken($requestParams, $customer_id );
-      $transaction_id = $payCore->chargeApi($requestParams, $customer_id);
+      // $payCore = $this->payCore;
+      // $access_token = $payCore->getToken($requestParams);
+      // $requestParams['tokenise'] = array( "3dsecure"=>  "true" ,
+      // "price"=>  "1234", "currency"=> "EUR","referenceId"=>"dantest123",
+      // "card_token"=> "017dd335-b311-4bf9-8d0b-5eae5c1ee82c","session_id"=>"f8314df7-8152-4ca3-b4d1-141ba6dda16f","method_code"=>"CARDS" );
+      // $customer_id = $payCore->createCustomer($requestParams);
+      // $payCore->registerAccountToken($requestParams, $customer_id );
+      // $transaction_id = $payCore->chargeApi($requestParams, $customer_id);
       // $content = "access_token = $access_token, customer_id = $customer_id, transaction_id = $transaction_id";
       $content = $payCore->genCardTokenWidget($twig, $requestParams);
 

@@ -159,8 +159,7 @@ class PayCore
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headers = substr($cres, 0, $header_size);
     $body = substr($cres, $header_size); 
-    $jres = json_decode($body, true);
-    $payment_id = $jres['payment_id'];
+    
     // curl_close($ch);
     // $transactionHeaders = $this->http_parse_headers($headers);
     // $transactionId = '';
@@ -174,7 +173,7 @@ class PayCore
     //   $_SESSION['3durl'] = $ThreedURL;      
     // }
 
-    return $payment_id;
+    return $body;
   }
 
   function callAPI($method, $url, $conf, $data){

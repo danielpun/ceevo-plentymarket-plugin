@@ -170,8 +170,12 @@ class CeevoResponseController extends Controller
         $requestParams['tokenise'] = $data;
         $customer_id = $payCore->createCustomer($requestParams);
         $payCore->registerAccountToken($requestParams, $customer_id );
-        $cres = $payCore->chargeApi($requestParams, $customer_id);
-        return $cres;
+        $body = $payCore->chargeApi($requestParams, $customer_id);
+        $jres = json_decode($body, true);
+        $payment_id = $jres['payment_id'];
+        $this->sessionStorage->setSessionValue('lastTrxID', $payment_id);
+
+        return $this->response->redirectTo('place-order');
     }
 
 }

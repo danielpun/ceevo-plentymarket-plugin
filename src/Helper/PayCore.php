@@ -18,24 +18,24 @@ class PayCore
   {
   }
 
-  var $response   = '';
-  var $error      = '';
+  public $response   = '';
+  public $error      = '';
 
-  var $live_url       = 'https://api.ceevo.com';
-  var $test_url       = 'https://api.dev.ceevo.com';
-  var $live_token_url   = 'https://auth.ceevo.com/auth/realms/ceevo-realm/protocol/openid-connect/token';
-  var $test_token_url   = 'https://auth.dev.transact24.com/auth/realms/ceevo-realm/protocol/openid-connect/token';
-  var $live_sdk_url = 'https://sdk.ceevo.com';
-  var $test_sdk_url = 'https://sdk-beta.ceevo.com';
+  public $live_url       = 'https://api.ceevo.com';
+  public $test_url       = 'https://api.dev.ceevo.com';
+  public $live_token_url   = 'https://auth.ceevo.com/auth/realms/ceevo-realm/protocol/openid-connect/token';
+  public $test_token_url   = 'https://auth.dev.transact24.com/auth/realms/ceevo-realm/protocol/openid-connect/token';
+  public $live_sdk_url = 'https://sdk.ceevo.com';
+  public $test_sdk_url = 'https://sdk-beta.ceevo.com';
 
-  var $availablePayments = array('CV');
-  var $pageURL = '';
-  var $actualPaymethod = 'CV';
+  public $availablePayments = array('CV');
+  public $pageURL = '';
+  public $actualPaymethod = 'CV';
 
-  var $lastError = '';
-  var $lastErrorCode = '';
+  public $lastError = '';
+  public $lastErrorCode = '';
 
-  var $access_token = '';
+  public $access_token = '';
 
   function createCustomer($param){
     $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
@@ -57,7 +57,7 @@ class PayCore
     <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="800px"></iframe></center>';
     return $content;
     // return $twig->render('Ceevo::content.tokenise', ['apiKey' => $param['API.KEY'], 'mode' => $param['ENV.MODE'], 'price' => $param['PRICE'], 
-    //                       'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $param['tokenUrl']]);
+    //                       'currency' => $param['CURRENCY'], 'apiUrl' => $apiUrl, 'cardTokenUrl' => $param['cardTokenUrl']]);
   }
 
   function registerAccountToken($conf, $customer_registered_id){
@@ -109,13 +109,10 @@ class PayCore
       array_push($items_array, json_encode($item_json));
     }
     $itemString = implode(',',$items_array);
-
-    $access_token = $this->access_token;
-    
-    $authorization = "Authorization: Bearer $access_token";
-   
-    $charge_api = $url . "/payment/charge"; 
-       
+    $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $itemString);
+    $access_token = $this->access_token;    
+    $authorization = "Authorization: Bearer $access_token";   
+    $charge_api = $url . "/payment/charge";        
     
     $successURL = $param['REQUEST']['CRITERION.SUCCESSURL'];
     $failURL = $param['REQUEST']['CRITERION.FAILURL'];
@@ -159,31 +156,31 @@ class PayCore
     $cres = curl_exec($ch);
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $cres);
 
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headers = substr($cres, 0, $header_size);
-    $body = substr($cres, $header_size); 
+    // $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    // $headers = substr($cres, 0, $header_size);
+    // $body = substr($cres, $header_size); 
 
-    curl_close($ch);
-    $transactionHeaders = $this->http_parse_headers($headers);
-    $transactionId = '';
-    $ThreedURL = ''; 
+    // curl_close($ch);
+    // $transactionHeaders = $this->http_parse_headers($headers);
+    // $transactionId = '';
+    // $ThreedURL = ''; 
 
-    if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
-      $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-    }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
-      $ThreedURL   = $transactionHeaders['Location'];
-      $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-      $_SESSION['3durl'] = $ThreedURL;      
-    }
+    // if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
+    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+    // }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
+    //   $ThreedURL   = $transactionHeaders['Location'];
+    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+    //   $_SESSION['3durl'] = $ThreedURL;      
+    // }
 
-    return $transactionId;
+    return $cres;
   }
 
   function callAPI($method, $url, $conf, $data){
     $apiKey =  $conf['API.KEY'];
-      $access_token = $this->access_token;
+    $access_token = $this->access_token;
+    $authorization = "Authorization: Bearer $access_token";
 
-      $authorization = "Authorization: Bearer $access_token";
     $curl = curl_init();
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $data);
     switch ($method){
@@ -206,12 +203,9 @@ class PayCore
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_HEADER, 1);
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-
         'Content-Type: application/json',
         'Content-Length: ' . strlen($data),
         $authorization
-        //'X-CV-APIKey: 553fbbcd-f488-4e97-bf90-ad418a781e62'
-        
     ));
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);

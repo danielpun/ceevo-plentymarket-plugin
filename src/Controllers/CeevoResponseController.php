@@ -147,9 +147,8 @@ class CeevoResponseController extends Controller
 
     public function getTokenFrame(Twig $twig) {
       $requestParams = $this->sessionStorage->getSessionValue('requestParams');
-      $apiUrl = "https://sdk-beta.ceevo.com";
       return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
-                            'currency' => $requestParams['REQUEST']['CURRENCY'], 'apiUrl' => $apiUrl, 'tokenUrl' => $requestParams['tokenUrl']]);
+                            'currency' => $requestParams['REQUEST']['CURRENCY'], 'sdkUrl' => $requestParams['SDK.URL'], 'cardTokenUrl' => $requestParams['cardTokenUrl']]);
       // echo '<!DOCTYPE html>
       // <html>      
       // <head>
@@ -168,7 +167,7 @@ class CeevoResponseController extends Controller
       //   $(document).ready(function(){ 
       //     var price = parent.document.getElementById("price").value;
       //     var currency = parent.document.getElementById("currency").value;
-      //     document.getElementById("checkout_form").action = parent.document.getElementById("tokenUrl").value;
+      //     document.getElementById("checkout_form").action = parent.document.getElementById("cardTokenUrl").value;
       //     var apiUrl = parent.document.getElementById("apiUrl").value;
       //     var apiKey = parent.document.getElementById("apiKey").value;
       //     var mode = parent.document.getElementById("mode").value;

@@ -3,7 +3,7 @@
     "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test"},
     "namespace": "Ceevo",
     "type": "payment",  
-    "version": "0.0.48",
+    "version": "0.0.49",
     "license": "Copyright by Ceevo AG",
     "isClosedSource": true,
     "pluginIcon": "icon_plugin_xs.png",

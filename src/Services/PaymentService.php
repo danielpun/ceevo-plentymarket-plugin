@@ -185,6 +185,15 @@ class PaymentService
         $apiContextParams['CLIENT.SECRET'] = $this->config->get('Ceevo.clientSecret');
         $apiContextParams['API.KEY'] = $this->config->get('Ceevo.apiKey');
         $apiContextParams['ENV.MODE'] = $this->config->get('Ceevo.environment');
+        if ($apiContextParams['ENV.MODE'] == 'LIVE') {
+          $apiContextParams['API.URL'] = $this->payCore->live_url;
+          $apiContextParams['TOKEN.URL'] = $this->payCore->live_token_url;
+          $apiContextParams['SDK.URL'] = $this->payCore->live_sdk_url;
+        } else {
+          $apiContextParams['API.URL'] = $this->payCore->test_url;
+          $apiContextParams['TOKEN.URL'] = $this->payCore->test_token_url;
+          $apiContextParams['SDK.URL'] = $this->payCore->test_sdk_url;
+        }
         return $apiContextParams;
     }
     
@@ -293,7 +302,7 @@ class PaymentService
         );
 
         $requestParams['userData'] = $userData;
-        $requestParams['tokenUrl'] = $domain.'/payment/ceevo/card_token';
+        $requestParams['cardTokenUrl'] = $domain.'/payment/ceevo/card_token';
         $requestParams['REQUEST']['ORDER.ID'] = $orderId;
         $requestParams['REQUEST']['AMOUNT'] = $amount;
         $requestParams['REQUEST']['CURRENCY'] = $currency;

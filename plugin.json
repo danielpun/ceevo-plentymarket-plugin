@@ -3,7 +3,7 @@
     "marketplaceName": {"de":"Ceevo Zahlungs Prüfung","en":"Ceevo Payment test"},
     "namespace": "Ceevo",
     "type": "payment",  
-    "version": "0.0.37",
+    "version": "0.0.38",
     "license": "Copyright by Ceevo AG",
     "isClosedSource": true,
     "pluginIcon": "icon_plugin_xs.png",
@@ -14,8 +14,7 @@
     "keywords": ["ceevo", "official", "plentymarkets", "payment"],
     "author": "Ceevo AG",
     "authorIcon": "icon_author_xs.png",
-    "email": "tobias.eilers@ceevo.com",
-    "phone": "+49 8151 18759-0",
+    "email": "techsupport@ceevo.com",
     "serviceProvider": "Ceevo\\Providers\\CeevoServiceProvider",
     "containers": [],
     "dataProviders"         :

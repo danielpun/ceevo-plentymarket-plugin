@@ -108,7 +108,7 @@ class CeevoServiceProvider extends ServiceProvider
                 ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
                 ->setReferenceType('this')
                 ->setReferenceValue($this)
-                ->info('CeevoServiceProvider', [
+                ->info('Ceevo::Logger.infoCaption', [
                   'this' => $this,
                   'basket' => $basket, 
                 ]);
@@ -123,7 +123,7 @@ class CeevoServiceProvider extends ServiceProvider
                   ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
-                  ->info('CeevoServiceProvider', [
+                  ->info('Ceevo::Logger.infoCaption', [
                     'this' => $this,
                     'basket' => $basket, 
                   ]);
@@ -151,7 +151,7 @@ class CeevoServiceProvider extends ServiceProvider
                   ->getLogger('CeevoServiceProvider::boot::ExecutePayment')
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
-                  ->info('CeevoServiceProvider', [
+                  ->info('Ceevo::Logger.infoCaption', [
                     'this' => $this,
                     'getOrderId' => $event->getOrderId(),
                     'selectedPaymethod' => $selectedPaymethod, 

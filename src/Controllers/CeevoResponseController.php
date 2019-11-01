@@ -108,7 +108,7 @@ class CeevoResponseController extends Controller
     {
       $sender = $this->config->get('Ceevo.security_sender');
       $chksum = md5($_GET['trxid'].$_GET['uniqueid'].$sender);
-      $this->getLogger('CeevoResponseController_checkoutSuccess')->info('data', ['get' => $_GET, 'sender' => $sender, 'chksum' => $chksum]);
+      $this->getLogger('CeevoResponseController_checkoutSuccess')->info('Ceevo::Logger.infoCaption', ['get' => $_GET, 'sender' => $sender, 'chksum' => $chksum]);
       if ($_GET['chksum'] != $chksum){
         return $this->response->redirectTo('checkout');
       }
@@ -130,7 +130,7 @@ class CeevoResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
         
-        $this->getLogger('CeevoResponseController_handleResponse')->info('post', ['data' => $data]);
+        $this->getLogger('CeevoResponseController_handleResponse')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
         
         if ($data['PROCESSING.RESULT'] != 'ACK'){
           return urldecode($data['CRITERION.FAILURL'].'?ps='.$data['PROCESSING.STATUS'].'&pr='.$data['PROCESSING.RETURN']);
@@ -154,7 +154,7 @@ class CeevoResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
         
-        $this->getLogger('CeevoResponseController_handleCardToken')->info('post', ['data' => $data]);
+        $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
         
         return $data;
     }

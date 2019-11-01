@@ -128,7 +128,7 @@ class PaymentHelper
     {
       $this
             ->getLogger('PaymentHandler::createPlentyPayment')
-            ->info('createPlentyPayment params', [
+            ->info('Ceevo::Logger.infoCaption', [
               'data' => $data,
               'trxid' => $trxid,
               'uniqueid' => $uniqueid,
@@ -147,7 +147,7 @@ class PaymentHelper
       
         $this
             ->getLogger('PaymentHandler::createPlentyPayment')
-            ->info('createPlentyPayment payment', [
+            ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
             ]);
         
@@ -160,7 +160,7 @@ class PaymentHelper
 
           $this
             ->getLogger('PaymentHandler::createPlentyPayment')
-            ->info('createPlentyPayment props', [
+            ->info('Ceevo::Logger.infoCaption', [
               'props' => $paymentProperty,
             ]);
           
@@ -170,14 +170,14 @@ class PaymentHelper
           
           $this
             ->getLogger('PaymentHandler::createPlentyPayment')
-            ->info('createPlentyPayment payment after create', [
+            ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
             ]);
         /*
         } catch (Exception $e) {
           $this
            ->getLogger('PaymentHelper::createPlentyPayment')
-           ->info('catch', [
+           ->info('Ceevo::Logger.infoCaption', [
             $e->getMessage()
           ]);
         }
@@ -197,7 +197,7 @@ class PaymentHelper
       
       $this
             ->getLogger('PaymentHandler::assignPlentyPaymentToPlentyOrder')
-            ->info('assignPlentyPaymentToPlentyOrder params', [
+            ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
               'orderId' => $orderId,
             ]);
@@ -208,7 +208,7 @@ class PaymentHelper
         
         $this
             ->getLogger('PaymentHandler::assignPlentyPaymentToPlentyOrder')
-            ->info('assignPlentyPaymentToPlentyOrder order', [
+            ->info('Ceevo::Logger.infoCaption', [
               'order' => $order,
             ]);
 
@@ -222,7 +222,7 @@ class PaymentHelper
       } catch (Exception $e) {
           $this
            ->getLogger('PaymentHelper::assignPlentyPaymentToPlentyOrder')
-           ->info('catch', [
+           ->info('Ceevo::Logger.infoCaption', [
             $e->getMessage()
           ]);
       }

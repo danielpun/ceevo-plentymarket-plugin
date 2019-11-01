@@ -122,7 +122,7 @@ class PaymentService
         $order = $this->orderRepo->findOrderById($orderId);
         $this
             ->getLogger('PaymentService::executePayment')
-            ->info('executePayment->order', [
+            ->info('Ceevo::Logger.infoCaption', [
               'order' => $order,
             ]);
 
@@ -131,7 +131,7 @@ class PaymentService
         $lastUniqueID = $this->sessionStorage->getSessionValue('lastUniqueID');
         $this
             ->getLogger('PaymentService::executePayment')
-            ->info('executePayment->lastReq', [
+            ->info('Ceevo::Logger.infoCaption', [
               'req' => $lastReq,
               'trxid' => $lastTrxID,
               'uniqueid' => $lastUniqueID,
@@ -143,7 +143,7 @@ class PaymentService
 
           $this
             ->getLogger('PaymentService::executePayment')
-            ->info('payment', [
+            ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
               'orderId' => $orderId,
             ]);
@@ -154,7 +154,7 @@ class PaymentService
         } catch (Exception $e) {
           $this
            ->getLogger('PaymentService::executePayment')
-           ->info('catch', [
+           ->info('Ceevo::Logger.infoCaption', [
             $e->getMessage()
           ]);
         }
@@ -344,7 +344,7 @@ class PaymentService
         ->getLogger('PaymentService::getPaymentContent')
         //->setReferenceType('this')
         //->setReferenceValue($this)
-        ->info('PaymentService', [
+        ->info('Ceevo::Logger.infoCaption', [
           'requestParamsALL' => $requestParams, 
           'parse_result' => $content, 
           'this' => $this,

@@ -74,7 +74,7 @@ class CeevoPaymentMethodBase extends PaymentMethodService
          ->getLogger('CeevoPaymentMethodBase::isActive')
          //->setReferenceType('this')
          //->setReferenceValue($this)
-         ->info('CeevoPaymentMethod', [
+         ->info('Ceevo::Logger.infoCaption', [
            'this' => $this,
            'name_' => $this->configRepo->get('Ceevo.name_'.strtolower($this->type)), 
            'status_' => $this->configRepo->get('Ceevo.status_'.strtolower($this->type)),

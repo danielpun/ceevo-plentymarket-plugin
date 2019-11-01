@@ -102,13 +102,13 @@ class PayCore
     $mode = $param['ENV.MODE'];
 
     $items_array = array();
-    foreach($param['basketItems'] as $item){
-      
-      $item_json = array("item" => $item['name'],"itemValue" =>(string) $item['price']);
+    foreach($param['basketItems'] as $item){      
+      $item_json = array("item" => $item['name'],"itemValue" =>(string) ($item['price'] * 100));
       array_push($items_array, json_encode($item_json));
     }
     $itemString = implode(',',$items_array);
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $itemString);
+    
     $access_token = $this->access_token;    
     $authorization = "Authorization: Bearer $access_token";   
     $charge_api = $url . "/payment/charge";        
@@ -158,7 +158,8 @@ class PayCore
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headers = substr($cres, 0, $header_size);
     $body = substr($cres, $header_size); 
-
+    $jres = json_decode($body, true);
+    $payment_id = $jres['payment_id'];
     // curl_close($ch);
     // $transactionHeaders = $this->http_parse_headers($headers);
     // $transactionId = '';
@@ -172,7 +173,7 @@ class PayCore
     //   $_SESSION['3durl'] = $ThreedURL;      
     // }
 
-    return $body;
+    return $payment_id;
   }
 
   function callAPI($method, $url, $conf, $data){

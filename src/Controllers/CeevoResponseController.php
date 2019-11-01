@@ -201,7 +201,7 @@ class CeevoResponseController extends Controller
         }
         
         $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
-        $requestParams = $sessionStorage->getSessionValue('requestParams');
+        $requestParams = $this->sessionStorage->getSessionValue('requestParams');
         $payCore = $this->payCore;
         $access_token = $payCore->getToken($requestParams);
         $requestParams['tokenise'] = $data;

@@ -237,7 +237,7 @@ class PayCore
 function genCardTokenWidget($twig, $param) {
   $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_sdk_url : $this->test_sdk_url;
   $content = '<button type="button" data-dismiss="modal" aria-label="Close" class="close" onclick="location.href=\'/checkout\'"><span aria-hidden="true">×</span></button>
-  <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="900px"></iframe></center>
+  <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="800px"></iframe></center>
     <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="'.$param['REQUEST']['AMOUNT'].'">
     <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="'.$param['REQUEST']['CURRENCY'].'">
     <input id="tokenUrl" name="tokenUrl" type="hidden" placeholder="" class="input-xlarge" value="'.$param['tokenUrl'].'">

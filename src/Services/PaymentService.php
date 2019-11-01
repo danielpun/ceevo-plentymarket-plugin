@@ -322,11 +322,13 @@ class PaymentService
       $lastReq = $this->sessionStorage->setSessionValue('lastReq', null);
       $lastTrxID = $this->sessionStorage->setSessionValue('lastTrxID', null);
       $lastUniqueID = $this->sessionStorage->setSessionValue('lastUniqueID', null);
+      $this->sessionStorage->setSessionValue('requestParams', null);
       
       $selectedPaymethod = strtolower($selectedPaymethod);
       $requestParams = $this->getApiParams($basket, $selectedPaymethod, $mopID);
+      $this->sessionStorage->setSessionValue('requestParams', $requestParams);
 
-      // $payCore = $this->payCore;
+      $payCore = $this->payCore;
       // $access_token = $payCore->getToken($requestParams);
       // $requestParams['tokenise'] = array( "3dsecure"=>  "true" ,
       // "price"=>  "1234", "currency"=> "EUR","referenceId"=>"dantest123",

@@ -352,19 +352,19 @@ function getToken($conf){
     $body = substr($cres, $header_size); 
 
     curl_close($ch);
-    // $transactionHeaders = $this->http_parse_headers($headers);
-    // $transactionId = '';
-    // $ThreedURL = ''; 
+    $transactionHeaders = $this->http_parse_headers($headers);
+    $transactionId = '';
+    $ThreedURL = ''; 
 
-    // if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
-    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-    // }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
-    //   $ThreedURL   = $transactionHeaders['Location'];
-    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-    //   $_SESSION['3durl'] = $ThreedURL;      
-    // }
+    if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
+      $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+    }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
+      $ThreedURL   = $transactionHeaders['Location'];
+      $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
+      $_SESSION['3durl'] = $ThreedURL;      
+    }
 
-    return $cres;
+    return $transactionId;
   }
 
     function callAPI($method, $url, $conf, $data){

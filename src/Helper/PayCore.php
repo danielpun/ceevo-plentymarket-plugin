@@ -38,7 +38,7 @@ class PayCore
   public $access_token = '';
 
   function createCustomer($param){
-    $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
+    $url = $param['API.URL'];
     $userData = $param['userData'];
 
     $data = array("billing_address" => array("city" => $userData['city'], "country" => $userData['country'],"state" => $userData['state'],
@@ -52,7 +52,6 @@ class PayCore
   }
 
   function genCardTokenWidget($twig, $param) {
-    $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_sdk_url : $this->test_sdk_url;
     $content = '<button type="button" data-dismiss="modal" aria-label="Close" class="close" onclick="location.href=\'/checkout\'"><span aria-hidden="true">×</span></button>
     <center><iframe src="payment/ceevo/token_frame" frameborder="0" width="100%" height="800px"></iframe></center>';
     return $content;
@@ -61,7 +60,7 @@ class PayCore
   }
 
   function registerAccountToken($conf, $customer_registered_id){
-      $url = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
+      $url = $conf['API.URL'];
       $token_array = array("account_token" => $conf['tokenise']['card_token'],"is_default" => true,"verify" => true);
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $token_array);
       $token_string = json_encode($token_array);
@@ -72,7 +71,7 @@ class PayCore
   }
 
   function getToken($conf){
-    $api = ($conf['ENV.MODE'] == 'LIVE') ? $this->live_token_url : $this->test_token_url;
+    $api = $conf['TOKEN.URL'];
     $param['grant_type'] = "client_credentials"; 
     $param['client_id'] = $conf['CLIENT.ID']; 
     $param['client_secret'] = $conf['CLIENT.SECRET']; 
@@ -95,7 +94,7 @@ class PayCore
   } 
 
   function chargeApi($param, $cusId){
-    $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
+    $url = $param['API.URL'];
 
     $userData = $param['userData'];   
     $orderId =  $param['REQUEST']['ORDER.ID'];
@@ -156,9 +155,9 @@ class PayCore
     $cres = curl_exec($ch);
     $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $cres);
 
-    // $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    // $headers = substr($cres, 0, $header_size);
-    // $body = substr($cres, $header_size); 
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headers = substr($cres, 0, $header_size);
+    $body = substr($cres, $header_size); 
 
     // curl_close($ch);
     // $transactionHeaders = $this->http_parse_headers($headers);
@@ -173,7 +172,7 @@ class PayCore
     //   $_SESSION['3durl'] = $ThreedURL;      
     // }
 
-    return $cres;
+    return $body;
   }
 
   function callAPI($method, $url, $conf, $data){

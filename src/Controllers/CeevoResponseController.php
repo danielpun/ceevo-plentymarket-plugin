@@ -149,47 +149,7 @@ class CeevoResponseController extends Controller
       $requestParams = $this->sessionStorage->getSessionValue('requestParams');
       return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
                             'currency' => $requestParams['REQUEST']['CURRENCY'], 'sdkUrl' => $requestParams['SDK.URL'], 'cardTokenUrl' => $requestParams['cardTokenUrl']]);
-      // echo '<!DOCTYPE html>
-      // <html>      
-      // <head>
-      // <meta charset="utf-8">
-      // <style type="text/css">
-      //   .ceevo__payment-wedgit {
-      //     padding-top: 0px !important;
-      //   }
-      // </style>
-      // </head>
-      // <body>
-      // <form id="checkout_form" action="" method="POST">
-      // </form>
-      // <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
-      // <script type="text/javascript" language="JavaScript">
-      //   $(document).ready(function(){ 
-      //     var price = parent.document.getElementById("price").value;
-      //     var currency = parent.document.getElementById("currency").value;
-      //     document.getElementById("checkout_form").action = parent.document.getElementById("cardTokenUrl").value;
-      //     var apiUrl = parent.document.getElementById("apiUrl").value;
-      //     var apiKey = parent.document.getElementById("apiKey").value;
-      //     var mode = parent.document.getElementById("mode").value;
-      //     var script = document.createElement("script");
-      //     script.src = apiUrl + "/ceevo.js";
-      //     var formId = "form#checkout_form";
-      //     var config = {
-      //       envMode: mode,
-      //     };
-      
-      //     $.getScript(script.src, function() {
-      //       var ceevoPayment = new CeevoPayment(apiKey, formId, config);      
-      //       var widget = ceevoPayment.widget();
-      //       widget.setPrice(price);
-      //       widget.setCurrency(currency);
-      //       widget.open();
-      //     });
-      //   });
-      // </script>
-      // </body>
-      // </html>';
-    }
+     }
 
     public function handleCardToken()
     {

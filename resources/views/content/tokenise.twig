@@ -9,31 +9,22 @@
 </style>
 </head>
 <body>3
-<form id="checkout_form" action="" method="POST">
+<form id="checkout_form" action="{{tokenUrl}}" method="POST">
 </form>
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+<script src="{{apiUrl}}/ceevo.js"></script>
 <script type="text/javascript" language="JavaScript">
   $(document).ready(function(){ 
-    var price = {{price}};
-    var currency = {{currency}};
-    document.getElementById("checkout_form").action = {{tokenUrl}};
-    var apiUrl = {{apiUrl}};
-    var apiKey = {{apiKey}};
-    var mode = {{mode}};
-    var script = document.createElement("script");
-    script.src = apiUrl + "/ceevo.js";
+    var price = "{{price}}";
+    var currency = "{{currency}}";
+    var apiKey = "{{apiKey}}";
     var formId = "form#checkout_form";
-    var config = {
-      envMode: mode,
-    };
-
-    $.getScript(script.src, function() {
-      var ceevoPayment = new CeevoPayment(apiKey, formId, config);      
-      var widget = ceevoPayment.widget();
-      widget.setPrice(price);
-      widget.setCurrency(currency);
-      widget.open();
-    });
+    var config = { envMode: "{{mode}}" };
+    var ceevoPayment = new CeevoPayment(apiKey, formId, config);      
+    var widget = ceevoPayment.widget();
+    widget.setPrice(price);
+    widget.setCurrency(currency);
+    widget.open();
   });
 </script>
 </body>

@@ -1,59 +1,40 @@
-
+<!DOCTYPE html>
+<html>      
+<head>
 <meta charset="utf-8">
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
-<script src="{{apiUrl}}/ceevo.js"></script>
-<div id='tokenDiv'>
-<button type="button" data-dismiss="modal" aria-label="Close" class="close" onclick="location.href='/checkout'"><span aria-hidden="true">×</span></button>
-<form id="checkout_form" action="{{tokenUrl}}" method="POST">
-  <input type="hidden" id="token_hidden_input" name="token_hidden_input">
-  <input type="hidden" id="session_hidden_input" name="session_hidden_input">
-  <input type="hidden" id="3dsecure" name="3dsecure" value="false">
-
-  <input id="price" name="price" type="hidden" placeholder="" class="input-xlarge" value="{{price}}">
-  <input id="currency" name="currency" type="hidden" placeholder="" class="input-xlarge" value="{{currency}}">
+<style type="text/css">
+  .ceevo__payment-wedgit {
+    padding-top: 0px !important;
+  }
+</style>
+</head>
+<body>
+<form id="checkout_form" action="" method="POST">
 </form>
-<div id="errorDiv"></div>
-<div id="resultDiv"></div>
-<a href="javascript:;" onclick='initToken()'>submit</a> <a href="javascript:;" onclick="alert()">cancel</a>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" language="JavaScript">
-// var script = document.createElement('script');
-// script.src = "{{apiUrl}}/ceevo.js";
-// document.head.appendChild(script);
-  function initToken() {
-    var apikey = '{{apiKey}}';
-    var formId = 'form#checkout_form';
+  $(document).ready(function(){ 
+    var price = parent.document.getElementById("price").value;
+    var currency = parent.document.getElementById("currency").value;
+    document.getElementById("checkout_form").action = parent.document.getElementById("tokenUrl").value;
+    var apiUrl = parent.document.getElementById("apiUrl").value;
+    var apiKey = parent.document.getElementById("apiKey").value;
+    var mode = parent.document.getElementById("mode").value;
+    var script = document.createElement("script");
+    script.src = apiUrl + "/ceevo.js";
+    var formId = "form#checkout_form";
     var config = {
-      envMode: '{{mode}}', // LIVE
-      receiveTokensEvent: false, // support custom event listener 'receiveTokens' to send tokenise data to merchant. default false.
-      renderWidgetTo: 'div#tokenDiv'
+      envMode: mode,
     };
 
-    var ceevoPayment = new CeevoPayment(apikey, formId, config);
-
-    var widget = ceevoPayment.widget();
-    ceevoPayment.setPrice($('#price').val());
-    ceevoPayment.setCurrency($('#currency').val());
-    ceevoPayment.open_widget();
-  
-    ceevoPayment.addErrorCallBack(function (error) {
-      document.getElementById('errorDiv').innerHTML = '';
-      document.getElementById('errorDiv').innerHTML = error;
-      document.getElementById('resultDiv').innerHTML = '';
+    $.getScript(script.src, function() {
+      var ceevoPayment = new CeevoPayment(apiKey, formId, config);      
+      var widget = ceevoPayment.widget();
+      widget.setPrice(price);
+      widget.setCurrency(currency);
+      widget.open();
     });
-
-    document.getElementById('checkout_form').addEventListener('receiveTokens', function ({ detail }) {
-      console.log('form.eventListener', detail);
-      var result = '';
-      for (var key in detail) {
-        result += key + ': ' + detail[key] + '<br/>';
-      }
-      document.getElementById('resultDiv').innerHTML = result;
-    })
-
-    window.addEventListener('receiveTokens', function ({ detail }) {
-      console.log('window.eventListener', detail);
-    })
-  }
+  });
 </script>
+</body>
+</html>

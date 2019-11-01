@@ -145,7 +145,7 @@ class CeevoResponseController extends Controller
         }
     }
 
-    public function getTokenFrame() {
+    public function getTokenFrame(Twig $twig) {
       echo '<!DOCTYPE html>
       <html>      
       <head>

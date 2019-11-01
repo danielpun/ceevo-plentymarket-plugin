@@ -37,6 +37,19 @@ class PayCore
 
   var $access_token = '';
 
+  function createCustomer($param){
+    $url = ($param['ENV.MODE'] == 'LIVE') ? $this->live_url : $this->test_url;
+    $userData = $param['userData'];
+
+    $data = array("billing_address" => array("city" => $userData['city'], "country" => $userData['country'],"state" => $userData['state'],
+                  "street" => $userData['street'],"zip_or_postal"=> $userData['zip']),"email" => $userData['email'],"first_name" => $userData['firstname'],
+                  "last_name" => $userData['lastname'],"mobile" => $userData['phone'],"phone" => $userData['phone']);  
+    $data_string = json_encode($data);
+    $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $data);
+    $customer_id = $this->callAPI('POST', $url . '/payment/customer', $param, $data_string);
+   
+    return $customer_id;
+  }
 
   function genCardTokenWidget($twig, $param) {
     $apiUrl = ($param['ENV.MODE'] == 'LIVE') ? $this->live_sdk_url : $this->test_sdk_url;

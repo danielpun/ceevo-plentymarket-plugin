@@ -18,7 +18,7 @@ class CeevoRouteServiceProvider extends RouteServiceProvider
     {
         $router->post('payment/ceevo/card_token',        'Ceevo\Controllers\CeevoResponseController@handleCardToken');
         $router->get('payment/ceevo/token_frame',        'Ceevo\Controllers\CeevoResponseController@getTokenFrame');
-        $router->get('payment/ceevo/checkout_failure', 'Ceevo\Controllers\CeevoResponseController@checkoutFailure');
-        $router->get('payment/ceevo/checkout_success', 'Ceevo\Controllers\CeevoResponseController@checkoutSuccess');
+        $router->post('payment/ceevo/checkout_failure', 'Ceevo\Controllers\CeevoResponseController@checkoutFailure');
+        $router->post('payment/ceevo/checkout_success', 'Ceevo\Controllers\CeevoResponseController@checkoutSuccess');
     }
 }

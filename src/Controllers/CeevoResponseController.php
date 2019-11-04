@@ -120,8 +120,8 @@ class CeevoResponseController extends Controller
       }
 
       $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutSuccess' => $data]);
-      return $this->response->redirectTo('place-order');
-      //return $this->response->redirectTo('confirmation');
+      // return $this->response->redirectTo('place-order');
+      return $this->response->redirectTo('confirmation');
     }
 
     public function getTokenFrame(Twig $twig) {

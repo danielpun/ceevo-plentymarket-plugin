@@ -118,8 +118,12 @@ class CeevoResponseController extends Controller
         $t = explode('=', $v);
         $data[$t[0]] = $t[1];
       }
+      $payload = base64_decode($data['payload']); 
+      $returnData =  json_decode($payload,true);
+      $transactionId = $returnData['payment_id'];
+      $orderId = $returnData['reference_id'];
 
-      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutSuccess' => $data]);
+      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutSuccess' => $payload]);
       // return $this->response->redirectTo('place-order');
       return $this->response->redirectTo('confirmation');
     }

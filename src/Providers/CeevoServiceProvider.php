@@ -112,12 +112,10 @@ class CeevoServiceProvider extends ServiceProvider
                   'this' => $this,
                   'basket' => $basket, 
                 ]);
-                  
-                $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
                 
-                $event->setValue($content);
-                $event->setType('htmlContent');
-                
+                $event->setValue($paymentService->getPaymentContent($basket));
+                $event->setType( $paymentService->getReturnType());
+
                 $this
                   ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
                   //->setReferenceType('this')
@@ -142,7 +140,10 @@ class CeevoServiceProvider extends ServiceProvider
                     $selectedMopID = $paymentHelper->getPaymentMethod($k);
                   }
                 }
+                $content = $paymentService->getPaymentContent($this->twig, $basket, $selectedPaymethod, $selectedMopID);
                 
+                $event->setValue($content);
+                $event->setType('htmlContent');
                 // Execute the payment
                 $paymentRes = $paymentService->executePayment($event->getOrderId(), $selectedPaymethod, $selectedMopID);
                 

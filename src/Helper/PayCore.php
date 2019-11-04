@@ -107,7 +107,6 @@ class PayCore
       array_push($items_array, json_encode($item_json));
     }
     $itemString = implode(',',$items_array);
-    $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $itemString);
 
     $access_token = $this->access_token;    
     $authorization = "Authorization: Bearer $access_token";   
@@ -159,21 +158,15 @@ class PayCore
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headers = substr($cres, 0, $header_size);
     $body = substr($cres, $header_size); 
-    
-    // curl_close($ch);
-    // $transactionHeaders = $this->http_parse_headers($headers);
-    // $transactionId = '';
-    // $ThreedURL = ''; 
+    $jbody = json_decode($body, true);
+    curl_close($ch);
 
-    // if( $transactionHeaders[0]  == 'HTTP/1.1 201 Created') {        
-    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-    // }else if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
-    //   $ThreedURL   = $transactionHeaders['Location'];
-    //   $transactionId  =  $transactionHeaders['X-Gravitee-Transaction-Id'];
-    //   $_SESSION['3durl'] = $ThreedURL;      
-    // }
+    $transactionHeaders = $this->http_parse_headers($headers);
+    if($transactionHeaders[0]  == 'HTTP/1.1 302 Found'){
+      $jbody['3d_url']   = $transactionHeaders['Location'];   
+    }
 
-    return $body;
+    return $jbody;
   }
 
   function callAPI($method, $url, $conf, $data){

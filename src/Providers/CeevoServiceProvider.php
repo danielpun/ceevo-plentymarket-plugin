@@ -110,6 +110,7 @@ class CeevoServiceProvider extends ServiceProvider
                 ->setReferenceValue($this)
                 ->info('Ceevo::Logger.infoCaption', [
                   'this' => $this,
+                  'getOrderId' => $event->getOrderId(), 
                   'basket' => $basket, 
                 ]);
                   

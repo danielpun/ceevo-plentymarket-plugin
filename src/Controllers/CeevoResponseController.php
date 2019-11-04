@@ -173,7 +173,7 @@ class CeevoResponseController extends Controller
         $payCore->registerAccountToken($requestParams, $customer_id );
         $this->sessionStorage->setSessionValue('lastReq', $requestParams);
 
-        $res = $payCore->chargeApi($requestParams, $customer_id);
+        $res = $payCore->chargeApi($requestParams);
         $this->sessionStorage->setSessionValue('lastRes', $res);
         $this->sessionStorage->setSessionValue('lastTrxID', $res['payment_id']);
         $this->sessionStorage->setSessionValue('lastUniqueID', $res['payment_id']);

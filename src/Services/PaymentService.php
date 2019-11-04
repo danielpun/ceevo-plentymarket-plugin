@@ -128,7 +128,7 @@ class PaymentService
 
         $requestParams = $this->sessionStorage->getSessionValue('lastReq');
         $requestParams['REQUEST']['ORDER.ID'] = $orderId;
-        $lastReq = $payCore->chargeApi($requestParams);
+        $lastReq = $this->payCore->chargeApi($requestParams);
         $lastTrxID = $lastReq['payment_id'];
         $lastUniqueID = $lastReq['payment_id'];
         $this->sessionStorage->setSessionValue('lastRes', $lastReq);

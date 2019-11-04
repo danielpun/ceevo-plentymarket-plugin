@@ -176,8 +176,8 @@ class CeevoResponseController extends Controller
         $this->sessionStorage->setSessionValue('lastRes', $jres);
         $this->sessionStorage->setSessionValue('lastTrxID', $payment_id);
         $this->sessionStorage->setSessionValue('lastUniqueID', $payment_id);
-        return;
-        // return $this->response->redirectTo('place-order');
+
+        return $this->response->redirectTo('place-order');
     }
 
 }

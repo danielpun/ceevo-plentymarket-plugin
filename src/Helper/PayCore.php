@@ -93,7 +93,7 @@ class PayCore
     return $this->access_token;
   } 
 
-  function chargeApi($param, $cusId){
+  function chargeApi($param){
     $url = $param['API.URL'];
 
     $userData = $param['userData'];   
@@ -120,7 +120,7 @@ class PayCore
             "mode" : "'.$mode.'",
             "method_code":  "'.$param['tokenise']['method_code'].'",
             "currency": "'.$param['REQUEST']['CURRENCY'].'",
-            "customer_id": "'.$cusId.'", 
+            "customer_id": "'.$param['customer_id'].'", 
             "account_token": "'.$param['tokenise']['card_token'].'",
             "session_id": "'.$param['tokenise']['session_id'].'",
             "redirect_urls": {

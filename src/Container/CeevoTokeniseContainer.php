@@ -15,10 +15,10 @@ class CeevoTokeniseContainer
   
     public function call(Twig $twig, SessionStorageService $sessionStorage)
     {
-        $requestParams = $sessionStorage->getSessionValue('requestParams');
+        $requestParams = $sessionStorage->getSessionValue('lastReq');
 
         if (!empty($requestParams)){
-          return $twig->render('Ceevo::content.tokenise', ['requestParams' => $requestParams]);
+          return $twig->render('Ceevo::content.tokenise', ['lastReq' => $requestParams]);
         } else {
           return '404';
         }

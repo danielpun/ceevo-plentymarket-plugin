@@ -140,8 +140,8 @@ class PaymentHelper
         $payment->mopId             = (int)$data['REQUEST']['CRITERION.MOPID'];
         $payment->transactionType   = Payment::TRANSACTION_TYPE_BOOKED_POSTING;
         $payment->status            = 2; // 1=wait approve 2=approve 3=CP 4=PartCP 5=cancel 6=refused 9=RF 10=PartRF
-        $payment->currency          = $data['REQUEST']['PRESENTATION.CURRENCY'];
-        $payment->amount            = $data['REQUEST']['PRESENTATION.AMOUNT'];
+        $payment->currency          = $data['REQUEST']['CURRENCY'];
+        $payment->amount            = $data['REQUEST']['AMOUNT'];
         $payment->receivedAt        = date('YmdHis');
         //$payment->method            = $this->paymentMethodRepository->findByPaymentMethodId((int)$data['REQUEST']['CRITERION.MOPID']);
       

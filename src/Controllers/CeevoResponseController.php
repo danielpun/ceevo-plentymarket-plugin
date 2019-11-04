@@ -146,7 +146,7 @@ class CeevoResponseController extends Controller
     }
 
     public function getTokenFrame(Twig $twig) {
-      $requestParams = $this->sessionStorage->getSessionValue('requestParams');
+      $requestParams = $this->sessionStorage->getSessionValue('lastReq');
       return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
                             'currency' => $requestParams['REQUEST']['CURRENCY'], 'sdkUrl' => $requestParams['SDK.URL'], 'cardTokenUrl' => $requestParams['cardTokenUrl']]);
      }
@@ -162,9 +162,9 @@ class CeevoResponseController extends Controller
           $t = explode('=', $v);
           $data[$t[0]] = $t[1];
         }
-        
+
         $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
-        $requestParams = $this->sessionStorage->getSessionValue('requestParams');
+        $requestParams = $this->sessionStorage->getSessionValue('lastReq');
         $payCore = $this->payCore;
         $access_token = $payCore->getToken($requestParams);
         $requestParams['tokenise'] = $data;
@@ -173,9 +173,11 @@ class CeevoResponseController extends Controller
         $body = $payCore->chargeApi($requestParams, $customer_id);
         $jres = json_decode($body, true);
         $payment_id = $jres['payment_id'];
+        $this->sessionStorage->setSessionValue('lastRes', $jres);
         $this->sessionStorage->setSessionValue('lastTrxID', $payment_id);
-
-        return $this->response->redirectTo('place-order');
+        $this->sessionStorage->setSessionValue('lastUniqueID', $payment_id);
+        return;
+        // return $this->response->redirectTo('place-order');
     }
 
 }

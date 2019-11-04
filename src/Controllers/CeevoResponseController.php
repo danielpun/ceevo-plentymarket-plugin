@@ -94,55 +94,34 @@ class CeevoResponseController extends Controller
        
     }
 
-    public function getStyle()
-    {
-      return 'body{background-color: #f00}';
-    }
-    
     public function checkoutFailure(Twig $twig)
     {
-      $this->sessionStorage->setSessionValue('lastPS', $_GET['ps']);
-      $this->sessionStorage->setSessionValue('lastPR', $_GET['pr']);
-     
+      $body = $this->request->getContent();
+      $data = array();
+      $tmp = explode('&', $body);
+      foreach($tmp AS $v){
+        $t = explode('=', $v);
+        $data[$t[0]] = $t[1];
+      }
+
+      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutFailure' => $data]);
+
       return $this->response->redirectTo('checkout');
     }
     
     public function checkoutSuccess()
     {
-      $sender = $this->config->get('Ceevo.security_sender');
-      $chksum = md5($_GET['trxid'].$_GET['uniqueid'].$sender);
-      $this->getLogger('CeevoResponseController_checkoutSuccess')->info('Ceevo::Logger.infoCaption', ['get' => $_GET, 'sender' => $sender, 'chksum' => $chksum]);
-      if ($_GET['chksum'] != $chksum){
-        return $this->response->redirectTo('checkout');
+      $body = $this->request->getContent();
+      $data = array();
+      $tmp = explode('&', $body);
+      foreach($tmp AS $v){
+        $t = explode('=', $v);
+        $data[$t[0]] = $t[1];
       }
-      $this->sessionStorage->setSessionValue('lastTrxID', $_GET['trxid']);
-      $this->sessionStorage->setSessionValue('lastUniqueID', $_GET['uniqueid']);
+
+      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutSuccess' => $data]);
       return $this->response->redirectTo('place-order');
       //return $this->response->redirectTo('confirmation');
-    }
-    
-    public function handleResponse()
-    {
-        $headers = $this->request->header();
-
-        $body = $this->request->getContent();
-        $data = array();
-        $tmp = explode('&', $body);
-        foreach($tmp AS $v){
-          $t = explode('=', $v);
-          $data[$t[0]] = $t[1];
-        }
-        
-        $this->getLogger('CeevoResponseController_handleResponse')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
-        
-        if ($data['PROCESSING.RESULT'] != 'ACK'){
-          return urldecode($data['CRITERION.FAILURL'].'?ps='.$data['PROCESSING.STATUS'].'&pr='.$data['PROCESSING.RETURN']);
-        } else {
-          $sender = $this->config->get('Ceevo.security_sender');
-          $chksum = md5($data['IDENTIFICATION.SHORTID'].$data['IDENTIFICATION.UNIQUEID'].$sender);
-          $params = '?trxid='.$data['IDENTIFICATION.SHORTID'].'&uniqueid='.$data['IDENTIFICATION.UNIQUEID'].'&chksum='.$chksum;
-          return urldecode($data['CRITERION.SUCCESSURL']).$params;
-        }
     }
 
     public function getTokenFrame(Twig $twig) {
@@ -153,8 +132,6 @@ class CeevoResponseController extends Controller
 
     public function handleCardToken()
     {
-        $headers = $this->request->header();
-
         $body = $this->request->getContent();
         $data = array();
         $tmp = explode('&', $body);
@@ -163,7 +140,7 @@ class CeevoResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
 
-        $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['data' => $data]);
+        $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['handleCardToken' => $data]);
         $requestParams = $this->sessionStorage->getSessionValue('lastReq');
         $payCore = $this->payCore;
         $access_token = $payCore->getToken($requestParams);

@@ -126,15 +126,9 @@ class PaymentService
               'order' => $order,
             ]);
 
-        $requestParams = $this->sessionStorage->getSessionValue('lastReq');
-        $requestParams['REQUEST']['ORDER.ID'] = $orderId;
-        $lastReq = $this->payCore->chargeApi($requestParams);
-        $lastTrxID = $lastReq['payment_id'];
-        $lastUniqueID = $lastReq['payment_id'];
-        $this->sessionStorage->setSessionValue('lastRes', $lastReq);
-        $this->sessionStorage->setSessionValue('lastTrxID', $lastReq['payment_id']);
-        $this->sessionStorage->setSessionValue('lastUniqueID', $lastReq['payment_id']);
-
+        $lastReq = $this->sessionStorage->getSessionValue('lastReq');
+        $lastTrxID = $this->sessionStorage->getSessionValue('lastTrxID');
+        $lastUniqueID = $this->sessionStorage->getSessionValue('lastUniqueID');
         $this
             ->getLogger('PaymentService::executePayment')
             ->info('Ceevo::Logger.infoCaption', [

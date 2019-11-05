@@ -94,19 +94,19 @@ class CeevoResponseController extends Controller
        
     }
 
-    public function checkoutFailure()
+    public function checkoutFailure(Twig $twig)
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
-      return $this->checkoutResponse();
+      return $this->checkoutResponse($twig);
     }
 
-    public function checkoutSuccess()
+    public function checkoutSuccess(Twig $twig)
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
-      return $this->checkoutResponse();
+      return $this->checkoutResponse($twig);
     }
     
-    public function checkoutResponse()
+    public function checkoutResponse(Twig $twig)
     {
       $body = $this->request->getContent();
       $data = array();
@@ -143,7 +143,7 @@ class CeevoResponseController extends Controller
             $redirection = 'basket';
             break;
           case 'FAILED':
-            $redirection = 'confirmation';
+            $redirection = 'payment/ceevo/error_page';
             break;
           case 'ERROR':
             $redirection = 'payment/ceevo/error_page';

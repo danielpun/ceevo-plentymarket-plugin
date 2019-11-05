@@ -130,7 +130,8 @@ class CeevoResponseController extends Controller
       $checksum = base64_encode($s);
 
       $redirection = 'payment/ceevo/error_page';
-      if($HMACSHA256 == $checksum) {        
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['status' => $status]);
+      if($HMACSHA256 == $checksum) {
         switch($status) {
           case 'SUCCEEDED':
             $redirection = 'confirmation';
@@ -141,7 +142,7 @@ class CeevoResponseController extends Controller
           case 'FAILED':
             $redirection = 'confirmation';
           case 'ERROR':
-            $redirection = 'checkout';
+            $redirection = 'payment/ceevo/error_page';
         }
       } else {        
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);

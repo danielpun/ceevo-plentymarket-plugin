@@ -98,13 +98,13 @@ class CeevoResponseController extends Controller
     public function checkoutFailure()
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
-      return $this->checkoutResponse($twig);
+      return $this->checkoutResponse();
     }
 
     public function checkoutSuccess()
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
-      return $this->checkoutResponse($twig);
+      return $this->checkoutResponse();
     }
     
     public function checkoutResponse()

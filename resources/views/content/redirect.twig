@@ -1,0 +1,5 @@
+{% if redirection %}
+<script>parent.location='{{ redirection }}';</script>
+{% else %}
+<script>parent.location='../../';</script>
+{% endif%}

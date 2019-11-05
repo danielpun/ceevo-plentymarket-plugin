@@ -138,8 +138,7 @@ class CeevoResponseController extends Controller
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
 
-      // return $this->response->redirectTo($redirection);
-      return $this->twig->render('Ceevo::content.error', ['errorText' => $redirection]);
+      return $this->redirectPage($redirection);
     }
 
     public function getRedirection($status) {
@@ -154,10 +153,10 @@ class CeevoResponseController extends Controller
           $redirection = 'basket';
           break;
         case 'FAILED':
-          $redirection = 'payment/ceevo/error_page';
+          $redirection = 'checkout';
           break;
         case 'ERROR':
-          $redirection = 'payment/ceevo/error_page';
+          $redirection = 'checkout';
           break;
         default:
           $redirection = 'checkout';
@@ -165,8 +164,9 @@ class CeevoResponseController extends Controller
       return $redirection;
     }
 
-    public function errorPage() {
-      return $this->twig->render('Ceevo::content.error', ['errorText' => 'basket']);
+    public function redirectPage($redirection) {
+      $redirection = '../../' . $redirection; 
+      return $this->twig->render('Ceevo::content.redirect', ['redirection' => $redirection]);
     }
 
     public function getTokenFrame() {
@@ -206,7 +206,7 @@ class CeevoResponseController extends Controller
         return $this->response->redirectTo($res['3d_url']);
       } else {
         $redirection = $this->getRedirection($res['status']);
-        return $this->response->redirectTo($redirection);
+        return $this->redirectPage($redirection);
       }        
     }
 }

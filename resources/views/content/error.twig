@@ -1,4 +1,6 @@
 {% if errorText %}
-
-<script>parent.location='{{ errorText }}';</script>
+<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+<div style="border: solid 5px #f00; padding: 10px">
+<h5>Error: {{ errorText }}</h5>
+</div>
 {% endif%}

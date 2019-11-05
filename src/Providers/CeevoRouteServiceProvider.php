@@ -21,5 +21,6 @@ class CeevoRouteServiceProvider extends RouteServiceProvider
         $router->post('payment/ceevo/checkout_failure', 'Ceevo\Controllers\CeevoResponseController@checkoutFailure');
         $router->post('payment/ceevo/checkout_success', 'Ceevo\Controllers\CeevoResponseController@checkoutSuccess');
         $router->get('payment/ceevo/error_page',        'Ceevo\Controllers\CeevoResponseController@errorPage');
+        $router->get('payment/ceevo/redirect_page',        'Ceevo\Controllers\CeevoResponseController@redirectPage');
     }
 }

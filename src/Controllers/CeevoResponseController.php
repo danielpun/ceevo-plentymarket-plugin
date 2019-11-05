@@ -96,11 +96,17 @@ class CeevoResponseController extends Controller
 
     public function checkoutFailure()
     {
-      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', null);
-      return $this->checkoutSuccess();
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
+      return $this->checkoutResponse();
+    }
+
+    public function checkoutSuccess()
+    {
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
+      return $this->checkoutResponse();
     }
     
-    public function checkoutSuccess()
+    public function checkoutResponse()
     {
       $body = $this->request->getContent();
       $data = array();
@@ -123,13 +129,23 @@ class CeevoResponseController extends Controller
       $s = hash_hmac('sha256', $payload, $oneTimeKey, true);
       $checksum = base64_encode($s);
 
-      if($HMACSHA256 == $checksum) {
-        return $this->response->redirectTo('confirmation');
-      } else {
+      $redirection = 'checkout';
+      if($HMACSHA256 == $checksum) {        
+        switch($status) {
+          case 'SUCCEEDED':
+            $redirection = 'confirmation';
+          case 'PENDING':
+          case 'CANCEL':          
+            $redirection = 'place-order';
+          case 'FAILED':
+          case 'ERROR':
+            $redirection = 'checkout';
+        }
+      } else {        
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
       // return $this->response->redirectTo('place-order');
-      return $this->response->redirectTo('checkout');
+      return $this->response->redirectTo($redirection);
     }
 
     public function getTokenFrame(Twig $twig) {

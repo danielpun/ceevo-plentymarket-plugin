@@ -135,9 +135,11 @@ class CeevoResponseController extends Controller
           case 'SUCCEEDED':
             $redirection = 'confirmation';
           case 'PENDING':
-          case 'CANCEL':          
             $redirection = 'place-order';
+          case 'CANCEL':          
+            $redirection = 'basket';
           case 'FAILED':
+          $redirection = 'payment/ceevo/error_page';
           case 'ERROR':
             $redirection = 'checkout';
         }
@@ -148,11 +150,15 @@ class CeevoResponseController extends Controller
       return $this->response->redirectTo($redirection);
     }
 
+    public function errorPage(Twig $twig) {
+      return $twig->render('Ceevo::content.error', ['errorText' => 'err1111111']);
+    }
+
     public function getTokenFrame(Twig $twig) {
       $requestParams = $this->sessionStorage->getSessionValue('lastReq');
       return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
                             'currency' => $requestParams['REQUEST']['CURRENCY'], 'sdkUrl' => $requestParams['SDK.URL'], 'cardTokenUrl' => $requestParams['cardTokenUrl']]);
-     }
+    }
 
     public function handleCardToken()
     {

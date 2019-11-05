@@ -97,7 +97,7 @@ class CeevoResponseController extends Controller
     public function checkoutFailure()
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', null);
-      $this->checkoutSuccess();
+      return $this->checkoutSuccess();
     }
     
     public function checkoutSuccess()

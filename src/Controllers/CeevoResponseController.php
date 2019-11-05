@@ -110,7 +110,7 @@ class CeevoResponseController extends Controller
         $data[$t[0]] = $t[1];
       }
       $payload = base64_decode($data['payload']);
-      $HMACSHA256 = $data['HMACSHA256'];
+      $HMACSHA256 = urldecode($data['HMACSHA256']);
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['payload' => $payload, 'HMACSHA256' => $HMACSHA256]);
       
       $returnData =  json_decode($payload,true);
@@ -119,7 +119,7 @@ class CeevoResponseController extends Controller
       $status = $returnData['status'];
       $oneTimeKey = $this->sessionStorage->getSessionValue('oneTimeKey');
 
-      $s = hash_hmac('sha256', $returnData, $oneTimeKey, true);
+      $s = hash_hmac('sha256', $payload, $oneTimeKey, true);
       $checksum = base64_encode($s);
 
       if($HMACSHA256 == $checksum) {

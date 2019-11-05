@@ -129,7 +129,7 @@ class CeevoResponseController extends Controller
       $s = hash_hmac('sha256', $payload, $oneTimeKey, true);
       $checksum = base64_encode($s);
 
-      $redirection = 'checkout';
+      $redirection = 'payment/ceevo/error_page';
       if($HMACSHA256 == $checksum) {        
         switch($status) {
           case 'SUCCEEDED':
@@ -139,7 +139,7 @@ class CeevoResponseController extends Controller
           case 'CANCEL':          
             $redirection = 'basket';
           case 'FAILED':
-          $redirection = 'payment/ceevo/error_page';
+            $redirection = 'confirmation';
           case 'ERROR':
             $redirection = 'checkout';
         }

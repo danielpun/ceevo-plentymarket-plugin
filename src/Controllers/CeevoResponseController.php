@@ -110,7 +110,7 @@ class CeevoResponseController extends Controller
         $data[$t[0]] = $t[1];
       }
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['data_raw' => $data]);
-      $payload = urldecode(base64_decode($data['payload']));
+      $payload = base64_decode(urldecode($data['payload']));
       $HMACSHA256 = urldecode($data['HMACSHA256']);
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['payload' => $payload, 'HMACSHA256' => $HMACSHA256]);
       

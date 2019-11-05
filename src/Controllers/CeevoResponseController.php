@@ -129,26 +129,34 @@ class CeevoResponseController extends Controller
       $s = hash_hmac('sha256', $payload, $oneTimeKey, true);
       $checksum = base64_encode($s);
 
-      $redirection = 'payment/ceevo/error_page';
+      
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['status' => $status]);
       if($HMACSHA256 == $checksum) {
         switch($status) {
           case 'SUCCEEDED':
             $redirection = 'confirmation';
+            break;
           case 'PENDING':
             $redirection = 'place-order';
+            break;
           case 'CANCEL':          
             $redirection = 'basket';
+            break;
           case 'FAILED':
             $redirection = 'confirmation';
+            break;
           case 'ERROR':
             $redirection = 'payment/ceevo/error_page';
+            break;
+          default:
+            $redirection = 'checkout';
         }
       } else {        
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
-      // return $this->response->redirectTo('place-order');
-      return $this->response->redirectTo($redirection);
+
+      // return $this->response->redirectTo($redirection);
+      return $twig->render('Ceevo::content.error', ['errorText' => $redirection]);
     }
 
     public function errorPage(Twig $twig) {

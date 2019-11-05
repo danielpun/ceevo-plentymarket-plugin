@@ -61,7 +61,7 @@ class CeevoResponseController extends Controller
     
     private $payCore;
      
-    
+    private $twig;
   
 
     /**
@@ -80,7 +80,8 @@ class CeevoResponseController extends Controller
                                 PaymentHelper $paymentHelper,
                                 SessionStorageService $sessionStorage,
                                 OrderRepositoryContract $orderRepo,
-                                PayCore $payCore,                               
+                                PayCore $payCore, 
+                                Twig $twig,                              
                                 ConfigRepository $config)
     {
         $this->request            = $request;
@@ -90,23 +91,23 @@ class CeevoResponseController extends Controller
         $this->orderRepo          = $orderRepo;
         $this->sessionStorage     = $sessionStorage;
         $this->config             = $config;
-        $this->payCore             = $payCore;
-       
+        $this->payCore            = $payCore;
+        $this->twig               = $twig;       
     }
 
-    public function checkoutFailure(Twig $twig)
+    public function checkoutFailure()
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
       return $this->checkoutResponse($twig);
     }
 
-    public function checkoutSuccess(Twig $twig)
+    public function checkoutSuccess()
     {
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', $this->request->getContent());
       return $this->checkoutResponse($twig);
     }
     
-    public function checkoutResponse(Twig $twig)
+    public function checkoutResponse()
     {
       $body = $this->request->getContent();
       $data = array();
@@ -132,73 +133,80 @@ class CeevoResponseController extends Controller
       
       $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['status' => $status]);
       if($HMACSHA256 == $checksum) {
-        switch($status) {
-          case 'SUCCEEDED':
-            $redirection = 'confirmation';
-            break;
-          case 'PENDING':
-            $redirection = 'place-order';
-            break;
-          case 'CANCEL':          
-            $redirection = 'basket';
-            break;
-          case 'FAILED':
-            $redirection = 'payment/ceevo/error_page';
-            break;
-          case 'ERROR':
-            $redirection = 'payment/ceevo/error_page';
-            break;
-          default:
-            $redirection = 'checkout';
-        }
+        $redirection = $this->getRedirection($status);
       } else {        
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
 
       // return $this->response->redirectTo($redirection);
-      return $twig->render('Ceevo::content.error', ['errorText' => $redirection]);
+      return $this->twig->render('Ceevo::content.error', ['errorText' => $redirection]);
     }
 
-    public function errorPage(Twig $twig) {
-      return $twig->render('Ceevo::content.error', ['errorText' => 'err1111111']);
+    public function getRedirection($status) {
+      switch($status) {
+        case 'SUCCEEDED':
+          $redirection = 'confirmation';
+          break;
+        case 'PENDING':
+          $redirection = 'place-order';
+          break;
+        case 'CANCEL':          
+          $redirection = 'basket';
+          break;
+        case 'FAILED':
+          $redirection = 'payment/ceevo/error_page';
+          break;
+        case 'ERROR':
+          $redirection = 'payment/ceevo/error_page';
+          break;
+        default:
+          $redirection = 'checkout';
+      }
+      return $redirection;
     }
 
-    public function getTokenFrame(Twig $twig) {
+    public function errorPage() {
+      return $this->twig->render('Ceevo::content.error', ['errorText' => 'basket']);
+    }
+
+    public function getTokenFrame() {
       $requestParams = $this->sessionStorage->getSessionValue('lastReq');
-      return $twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
+      return $this->twig->render('Ceevo::content.tokenise', ['apiKey' => $requestParams['API.KEY'], 'mode' => $requestParams['ENV.MODE'], 'price' => $requestParams['REQUEST']['AMOUNT'], 
                             'currency' => $requestParams['REQUEST']['CURRENCY'], 'sdkUrl' => $requestParams['SDK.URL'], 'cardTokenUrl' => $requestParams['cardTokenUrl']]);
     }
 
     public function handleCardToken()
     {
-        $body = $this->request->getContent();
-        $data = array();
-        $tmp = explode('&', $body);
-        foreach($tmp AS $v){
-          $t = explode('=', $v);
-          $data[$t[0]] = $t[1];
-        }
+      $body = $this->request->getContent();
+      $data = array();
+      $tmp = explode('&', $body);
+      foreach($tmp AS $v){
+        $t = explode('=', $v);
+        $data[$t[0]] = $t[1];
+      }
 
-        $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['handleCardToken' => $data]);
-        $requestParams = $this->sessionStorage->getSessionValue('lastReq');
-        $payCore = $this->payCore;
-        $access_token = $payCore->getToken($requestParams);
-        $requestParams['tokenise'] = $data;
-        $customer_id = $payCore->createCustomer($requestParams);
-        $requestParams['customer_id'] = $customer_id;
-        $payCore->registerAccountToken($requestParams, $customer_id );
-        $this->sessionStorage->setSessionValue('lastReq', $requestParams);
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['handleCardToken' => $data]);
+      $requestParams = $this->sessionStorage->getSessionValue('lastReq');
+      $payCore = $this->payCore;
+      $access_token = $payCore->getToken($requestParams);
+      $requestParams['tokenise'] = $data;
+      $customer_id = $payCore->createCustomer($requestParams);
+      $requestParams['customer_id'] = $customer_id;
+      $payCore->registerAccountToken($requestParams, $customer_id );
+      $this->sessionStorage->setSessionValue('lastReq', $requestParams);
 
-        $res = $payCore->chargeApi($requestParams);
-        $this->sessionStorage->setSessionValue('lastRes', $res);
-        $this->sessionStorage->setSessionValue('lastTrxID', $res['payment_id']);
-        $this->sessionStorage->setSessionValue('lastUniqueID', $res['payment_id']);
+      $res = $payCore->chargeApi($requestParams);
+      $this->sessionStorage->setSessionValue('lastRes', $res);
+      $this->sessionStorage->setSessionValue('lastTrxID', $res['payment_id']);
+      $this->sessionStorage->setSessionValue('lastUniqueID', $res['payment_id']);
+      
+
+      if($res['3d_url'] != "") {
         $this->sessionStorage->setSessionValue('oneTimeKey', $res['message']);
-
-        if($res['3d_url'] != "") {
-          return $this->response->redirectTo($res['3d_url']);
-        }
-        return $this->response->redirectTo('place-order');
+        return $this->response->redirectTo($res['3d_url']);
+      } else {
+        $redirection = $this->getRedirection($res['status']);
+        return $this->response->redirectTo($redirection);
+      }        
     }
-
 }

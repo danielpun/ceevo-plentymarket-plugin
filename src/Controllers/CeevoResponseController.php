@@ -96,17 +96,7 @@ class CeevoResponseController extends Controller
 
     public function checkoutFailure(Twig $twig)
     {
-      $body = $this->request->getContent();
-      $data = array();
-      $tmp = explode('&', $body);
-      foreach($tmp AS $v){
-        $t = explode('=', $v);
-        $data[$t[0]] = $t[1];
-      }
-
-      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutFailure' => $data]);
-
-      return $this->response->redirectTo('checkout');
+      $this->checkoutSuccess();
     }
     
     public function checkoutSuccess()
@@ -118,14 +108,23 @@ class CeevoResponseController extends Controller
         $t = explode('=', $v);
         $data[$t[0]] = $t[1];
       }
-      $payload = base64_decode($data['payload']); 
+      $payload = base64_decode($data['payload']);
+      $HMACSHA256 = $data['payload'];
+      $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['payload' => $payload, 'HMACSHA256' => $HMACSHA256]);
+      
       $returnData =  json_decode($payload,true);
-      $transactionId = $returnData['payment_id'];
+      $transactionId = $returnData['payment_id'];      
       $orderId = $returnData['reference_id'];
+      $oneTimeKey = $this->sessionStorage->getSessionValue('oneTimeKey');
 
-      $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['checkoutSuccess' => $payload]);
+      $s = hash_hmac('sha256', $returnData, $oneTimeKey, true);
+      $checksum = base64_encode($s);
+
+      if($HMACSHA256 == $checksum) {
+        return $this->response->redirectTo('confirmation');
+      }
       // return $this->response->redirectTo('place-order');
-      return $this->response->redirectTo('confirmation');
+      return $this->response->redirectTo('checkout');
     }
 
     public function getTokenFrame(Twig $twig) {
@@ -144,7 +143,7 @@ class CeevoResponseController extends Controller
           $data[$t[0]] = $t[1];
         }
 
-        $this->getLogger('CeevoResponseController_handleCardToken')->info('Ceevo::Logger.infoCaption', ['handleCardToken' => $data]);
+        $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['handleCardToken' => $data]);
         $requestParams = $this->sessionStorage->getSessionValue('lastReq');
         $payCore = $this->payCore;
         $access_token = $payCore->getToken($requestParams);
@@ -158,6 +157,7 @@ class CeevoResponseController extends Controller
         $this->sessionStorage->setSessionValue('lastRes', $res);
         $this->sessionStorage->setSessionValue('lastTrxID', $res['payment_id']);
         $this->sessionStorage->setSessionValue('lastUniqueID', $res['payment_id']);
+        $this->sessionStorage->setSessionValue('oneTimeKey', $res['message']);
 
         if($res['3d_url'] != "") {
           return $this->response->redirectTo($res['3d_url']);

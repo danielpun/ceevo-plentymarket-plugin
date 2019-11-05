@@ -122,6 +122,8 @@ class CeevoResponseController extends Controller
 
       if($HMACSHA256 == $checksum) {
         return $this->response->redirectTo('confirmation');
+      } else {
+        $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
       // return $this->response->redirectTo('place-order');
       return $this->response->redirectTo('checkout');

@@ -126,6 +126,9 @@ class CeevoResponseController extends Controller
       $orderId = $returnData['reference_id'];
       $status = $returnData['status'];
       $oneTimeKey = $this->sessionStorage->getSessionValue('oneTimeKey');
+      $requestParams = $this->sessionStorage->getSessionValue('lastReq');
+      $requestParams['STATUS']= $status;
+      $this->sessionStorage->setSessionValue('lastReq', $requestParams);
 
       $s = hash_hmac('sha256', $payload, $oneTimeKey, true);
       $checksum = base64_encode($s);

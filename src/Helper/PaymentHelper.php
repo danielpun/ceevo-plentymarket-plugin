@@ -139,7 +139,7 @@ class PaymentHelper
 
         $payment->mopId             = (int)$data['REQUEST']['CRITERION.MOPID'];
         $payment->transactionType   = Payment::TRANSACTION_TYPE_BOOKED_POSTING;
-        $payment->status            = 2; // 1=wait approve 2=approve 3=CP 4=PartCP 5=cancel 6=refused 9=RF 10=PartRF
+        $payment->status            = $this->mapStatus((STRING)$data['STATUS']); // 1=wait approve 2=approve 3=CP 4=PartCP 5=cancel 6=refused 9=RF 10=PartRF
         $payment->currency          = $data['REQUEST']['CURRENCY'];
         $payment->amount            = $data['REQUEST']['AMOUNT'];
         $payment->receivedAt        = date('YmdHis');
@@ -227,6 +227,23 @@ class PaymentHelper
           ]);
       }
       */
+    }
+
+    public function mapStatus(string $status)
+    {
+        if(!is_array($this->statusMap) || count($this->statusMap) <= 0)
+        {
+            $statusConstants = $this->paymentRepository->getStatusConstants();
+            if(!is_null($statusConstants) && is_array($statusConstants))
+            {
+                $this->statusMap['SUCCEEDED']               = $statusConstants['captured'];
+                $this->statusMap['FAILED']                = $statusConstants['refused'];
+                $this->statusMap['PENDING']               = $statusConstants['awaiting_approval'];
+                $this->statusMap['ERROR']                 = $statusConstants['refused'];
+                $this->statusMap['CANCEL']                = $statusConstants['refused'];
+            }
+        }
+        return strlen($status)?(int)$this->statusMap[$status]:2;
     }
     
     /**

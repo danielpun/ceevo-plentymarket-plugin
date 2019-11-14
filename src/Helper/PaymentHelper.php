@@ -127,7 +127,7 @@ class PaymentHelper
     public function createPlentyPayment($data, $trxid, $uniqueid)
     {
       $this
-            ->getLogger('PaymentHandler::createPlentyPayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'data' => $data,
               'trxid' => $trxid,
@@ -146,7 +146,7 @@ class PaymentHelper
         //$payment->method            = $this->paymentMethodRepository->findByPaymentMethodId((int)$data['REQUEST']['CRITERION.MOPID']);
       
         $this
-            ->getLogger('PaymentHandler::createPlentyPayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
             ]);
@@ -159,7 +159,7 @@ class PaymentHelper
           $paymentProperty[] = $this->getPaymentProperty(PaymentProperty::TYPE_ORIGIN, Payment::ORIGIN_PLUGIN);
 
           $this
-            ->getLogger('PaymentHandler::createPlentyPayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'props' => $paymentProperty,
             ]);
@@ -169,7 +169,7 @@ class PaymentHelper
           $payment = $this->paymentRepository->createPayment($payment);
           
           $this
-            ->getLogger('PaymentHandler::createPlentyPayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
             ]);

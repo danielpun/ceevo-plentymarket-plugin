@@ -121,7 +121,7 @@ class PaymentService
         
         $order = $this->orderRepo->findOrderById($orderId);
         $this
-            ->getLogger('PaymentService::executePayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'order' => $order,
             ]);
@@ -130,7 +130,7 @@ class PaymentService
         $lastTrxID = $this->sessionStorage->getSessionValue('lastTrxID');
         $lastUniqueID = $this->sessionStorage->getSessionValue('lastUniqueID');
         $this
-            ->getLogger('PaymentService::executePayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'req' => $lastReq,
               'trxid' => $lastTrxID,
@@ -142,7 +142,7 @@ class PaymentService
           $payment = $this->paymentHelper->createPlentyPayment($lastReq, $lastTrxID, $lastUniqueID);
 
           $this
-            ->getLogger('PaymentService::executePayment')
+            ->getLogger(__CLASS__ . '_' . __METHOD__)
             ->info('Ceevo::Logger.infoCaption', [
               'payment' => $payment,
               'orderId' => $orderId,
@@ -153,7 +153,7 @@ class PaymentService
         /*
         } catch (Exception $e) {
           $this
-           ->getLogger('PaymentService::executePayment')
+           ->getLogger(__CLASS__ . '_' . __METHOD__)
            ->info('Ceevo::Logger.infoCaption', [
             $e->getMessage()
           ]);

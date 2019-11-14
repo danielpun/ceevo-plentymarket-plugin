@@ -141,7 +141,7 @@ class CeevoResponseController extends Controller
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
 
-      // return $this->redirectPage($redirection);
+      return $this->response->redirectTo($redirection); //return $this->redirectPage($redirection);
     }
 
     public function getRedirection($status) {

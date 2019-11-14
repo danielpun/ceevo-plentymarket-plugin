@@ -145,26 +145,25 @@ class CeevoResponseController extends Controller
     }
 
     public function getRedirection($status) {
-      // switch($status) {
-      //   case 'SUCCEEDED':
-      //     $redirection = 'place-order';
-      //     break;
-      //   case 'PENDING':
-      //     $redirection = 'checkout';
-      //     break;
-      //   case 'CANCEL':          
-      //     $redirection = 'basket';
-      //     break;
-      //   case 'FAILED':
-      //     $redirection = 'checkout';
-      //     break;
-      //   case 'ERROR':
-      //     $redirection = 'checkout';
-      //     break;
-      //   default:
-      //     $redirection = 'checkout';
-      // }
-      $redirection = 'place-order';
+      switch($status) {
+        case 'SUCCEEDED':
+          $redirection = 'place-order';
+          break;
+        case 'PENDING':
+          $redirection = 'checkout';
+          break;
+        case 'CANCEL':          
+          $redirection = 'basket';
+          break;
+        case 'FAILED':
+          $redirection = 'checkout';
+          break;
+        case 'ERROR':
+          $redirection = 'checkout';
+          break;
+        default:
+          $redirection = 'checkout';
+      }
       return $redirection;
     }
 

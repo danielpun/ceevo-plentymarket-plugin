@@ -236,7 +236,7 @@ class PaymentHelper
             $statusConstants = $this->paymentRepository->getStatusConstants();
             if(!is_null($statusConstants) && is_array($statusConstants))
             {
-                $this->statusMap['SUCCEEDED']               = $statusConstants['captured'];
+                $this->statusMap['SUCCEEDED']             = $statusConstants['captured'];
                 $this->statusMap['FAILED']                = $statusConstants['refused'];
                 $this->statusMap['PENDING']               = $statusConstants['awaiting_approval'];
                 $this->statusMap['ERROR']                 = $statusConstants['refused'];

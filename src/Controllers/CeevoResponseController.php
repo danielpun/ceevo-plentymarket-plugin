@@ -141,16 +141,16 @@ class CeevoResponseController extends Controller
         $this->getLogger(__CLASS__ . '_' . __METHOD__)->info('Ceevo::Logger.infoCaption', ['checksum' => $checksum]);
       }
 
-      return $this->response->redirectTo($redirection); //return $this->redirectPage($redirection);
+      return $this->redirectPage($redirection);
     }
 
     public function getRedirection($status) {
       switch($status) {
         case 'SUCCEEDED':
-          $redirection = 'confirmation';
+          $redirection = 'place-order';
           break;
         case 'PENDING':
-          $redirection = 'place-order';
+          $redirection = 'checkout';
           break;
         case 'CANCEL':          
           $redirection = 'basket';

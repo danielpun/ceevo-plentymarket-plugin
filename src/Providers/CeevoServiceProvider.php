@@ -105,7 +105,7 @@ class CeevoServiceProvider extends ServiceProvider
                 }
                 //$output.= 'basket: '.$paymentService->getPaymentContent($basket, $selectedPaymethod);
                 $this
-                ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
+                ->getLogger(__CLASS__ . '_' . __METHOD__)
                 ->setReferenceType('this')
                 ->setReferenceValue($this)
                 ->info('Ceevo::Logger.infoCaption', [
@@ -119,7 +119,7 @@ class CeevoServiceProvider extends ServiceProvider
                 $event->setType('htmlContent');
                 
                 $this
-                  ->getLogger('CeevoServiceProvider::boot::GetPaymentMethodContent')
+                  ->getLogger(__CLASS__ . '_' . __METHOD__)
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
                   ->info('Ceevo::Logger.infoCaption', [
@@ -147,7 +147,7 @@ class CeevoServiceProvider extends ServiceProvider
                 $paymentRes = $paymentService->executePayment($event->getOrderId(), $selectedPaymethod, $selectedMopID);
                 
                 $this
-                  ->getLogger('CeevoServiceProvider::boot::ExecutePayment')
+                  ->getLogger(__CLASS__ . '_' . __METHOD__)
                   //->setReferenceType('this')
                   //->setReferenceValue($this)
                   ->info('Ceevo::Logger.infoCaption', [

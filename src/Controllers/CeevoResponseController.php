@@ -208,6 +208,8 @@ class CeevoResponseController extends Controller
         $this->sessionStorage->setSessionValue('oneTimeKey', $res['message']);
         return $this->response->redirectTo($res['3d_url']);
       } else {
+        $requestParams['STATUS'] = $res['status'];
+        $this->sessionStorage->setSessionValue('lastReq', $requestParams);
         $redirection = $this->getRedirection($res['status']);
         return $this->redirectPage($redirection);
       }        
